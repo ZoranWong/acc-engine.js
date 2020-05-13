@@ -1,0 +1,22 @@
+{
+  "name": "@zoranwong/acc-engine.js",
+  "version": "0.0.1",
+  "description": "A javascript framework to accelerate your applicatin developement",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Javascript",
+    "js",
+    "framework",
+    "container",
+    "accelerate",
+    "node.js"
+  ],
+  "author": "Zoran Wong",
+  "license": "MIT",
+  "dependencies": {
+    "@zoranwong/pure-container": "0.0.11"
+  }
+}
