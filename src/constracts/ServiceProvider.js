@@ -1,4 +1,10 @@
 import Application from '../foundation/Application';
+/**
+ * [app description]
+ * @class ServiceProvider
+ * @property {Application} app
+ * @constructor {[ServiceProvider]}
+ */
 export default class ServiceProvider {
     /**
      * [app description]
