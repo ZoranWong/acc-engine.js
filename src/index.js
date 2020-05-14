@@ -1,8 +1,6 @@
 //
 import Application from './foundation/Application';
 import ConfigServiceProvider from './config/ConfigServiceProvider';
-let app = Application.getInstance();
-app.providers = [
-    ConfigServiceProvider
-];
-export default Application;
+const app = Application.getInstance();
+app.registerProvider(ConfigServiceProvider);
+export default app;

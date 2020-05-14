@@ -1,18 +1,11 @@
 import {
-    extend
+    extend,
+    isString
 } from 'underscore';
 export default class Repository {
     #items = {};
     constructor(config) {
         this.#items = config;
-        this.__prop__ = new Proxy(this, {
-            set(obj, prop, value) {
-                return obj.prop(prop, value);
-            },
-            get(obj, prop) {
-                return obj.getProp(prop);
-            }
-        });
     }
 
     prop(key, value) {
@@ -38,8 +31,9 @@ export default class Repository {
                 value = null;
             }
         });
+        return value;
     }
     parseKey(key) {
-        return key.split('.');
+        return isString(key) ? key.split('.') : [key];
     }
 }

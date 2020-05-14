@@ -1,18 +1,18 @@
 import Container from '@zoranwong/pure-container';
 import md5 from 'md5';
-const providers = new WeakMap();
-const globalProviderRegistered = new WeakMap();
+const providers = new Map();
+const globalProviderRegistered = new Map();
 export default class Application extends Container {
     #rootPath = null;
     #serviceProviders = null;
     #providerRegistered = null;
     #config = {};
-    #lifeCycle = {
+    #lifeCycles = {
         beforeCreated: () => {
-
+            this.registerServiceProviders();
         },
         created: () => {
-
+            this.boot();
         },
         beforeDestroy: () => {
 
@@ -22,8 +22,20 @@ export default class Application extends Container {
         }
     }
     constructor() {
+        super();
         this.#serviceProviders = providers;
         this.#providerRegistered = globalProviderRegistered;
+    }
+
+    /**
+     * 获取容器代理对象
+     * @return {Container|Application|Proxy}
+     */
+    static getInstance() {
+        if(!Application._instance) {
+            Application._instance = new Application();
+        }
+        return Application._instance.getProxy();
     }
 
     register() {
@@ -38,13 +50,17 @@ export default class Application extends Container {
         return this.#serviceProviders = providers;
     }
 
-    providerRegistered(name) {
-        return typeof this.#providerRegistered[name] !== 'undefined' ? true : false;
+    providerRegistered(provider) {
+        let key = this.#providerToKey(provider);
+        return this.#providerRegistered.has(key);
     }
 
     registerProvider(provider) {
-        this.providers.push(new provider(this));
-        this.#providerRegistered[this.#providerToKey(provider)] = true;
+        let p = new provider(this);
+        let key = this.#providerToKey(provider);
+        p.register();
+        this.providers.set(key, p);
+        this.#providerRegistered.set(key, true);
     }
 
     #providerToKey(provider) {
@@ -58,15 +74,19 @@ export default class Application extends Container {
     }
 
     registerServiceProviders() {
-        this.config.app.providers.forEach((provider) => {
-            if(!this.providerRegistered(provider)) {
-                this.registerProvider(provider);
-            }
-        });
+        if(this.config && this.config.app && this.config.app.providers) {
+            this.config.app.providers.forEach((provider) => {
+                if(!this.providerRegistered(provider)) {
+                    this.registerProvider(provider);
+                }
+            });
+        }
     }
     run() {
         //before app run
+        this.#lifeCycles.beforeCreated();
         //after
+        this.#lifeCycles.created();
     }
 
     set rootPath(path = null) {

@@ -6,11 +6,6 @@ import LogsServiceProvider from './logs/LogsServiceProvider';
 import CommandServiceProvider from './command/CommandServiceProvider';
 export default {
     providers: [
-        CookieServiceProvider,
-        EventServiceProvider,
-        HttpServiceProvider,
-        SocketServiceProvider,
-        LogsServiceProvider,
-        CommandServiceProvider
+        HttpServiceProvider
     ]
 }
