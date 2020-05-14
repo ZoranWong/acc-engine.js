@@ -50,9 +50,9 @@ export default class Application extends Container {
             }
         });
     }
-
     run() {
-
+        //before app run
+        //after
     }
 
     set rootPath(path = null) {
