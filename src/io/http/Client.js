@@ -1,11 +1,9 @@
 export default class Client {
-    #request = null;
-    #headers = {};
-    constructor() {
-        this.#request = new XMLHttpRequest();
+    #app = null;
+    constructor(app) {
+        this.#app = app;
     }
-
-    send() {
-        this.#request.send();
+    get adapter() {
+        return this.#app.httpAdapter;
     }
 }
