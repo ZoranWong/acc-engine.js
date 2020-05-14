@@ -7,6 +7,20 @@ export default class Application extends Container {
     #serviceProviders = null;
     #providerRegistered = null;
     #config = {};
+    #lifeCycle = {
+        beforeCreated: () => {
+
+        },
+        created: () => {
+
+        },
+        beforeDestroy: () => {
+
+        },
+        onDestroy: () => {
+
+        }
+    }
     constructor() {
         this.#serviceProviders = providers;
         this.#providerRegistered = globalProviderRegistered;
