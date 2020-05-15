@@ -1,14 +1,17 @@
 export default class Thread {
     #threadId = null;
-    constructor() {
-
+    #task = null;
+    #name = null;
+    #pool = null;
+    constructor(name, task, pool) {
+        this.#name = name;
+        this.#task = task;
+        this.#pool = pool;
     }
 
-    join() {
-
-    }
-
-    wait() {
-
+    async run(...params) {
+        let result = await this.#pool.exec(this.#task, params);
+        this.#pool.terminate();
+        return result;
     }
 }

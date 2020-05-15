@@ -8,17 +8,17 @@ app.rootPath = __dirname;
 app.run();
 app.config.app.version = '0.0.1'
 it('worker register function is ok!', async function () {
-    let result = await pool.exec(newThread, [app.rootPath + '/Thread.js']);
+    let result = await app.workerManager.thread('task1', task1)
+        .run('task1')(app.rootPath + '/Thread.js');
     expect(result)
         .toEqual(true);
-    pool.terminate();
 });
 console.log('==================== worker =============');
 
-function newThread(script) {
+function task1(path) {
     const {
         Thread
-    } = require(script);
+    } = require(path);
     return (new Thread)
         .run();
 }
