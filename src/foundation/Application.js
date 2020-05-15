@@ -89,12 +89,4 @@ export default class Application extends Container {
         //after
         this.#lifeCycles.created();
     }
-
-    set rootPath(path = null) {
-        return this.#rootPath = path;
-    }
-
-    get rootPath() {
-        return this.#rootPath;
-    }
 }
