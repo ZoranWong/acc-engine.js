@@ -13,12 +13,16 @@ it('worker register function is ok!', async function () {
     expect(result)
         .toEqual(true);
 });
-console.log('==================== worker =============');
+
+function console01(context) {
+    console.log(context);
+}
 
 function task1(path) {
     const {
         Thread
     } = require(path);
+
     return (new Thread)
         .run();
 }

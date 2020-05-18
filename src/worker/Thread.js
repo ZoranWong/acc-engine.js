@@ -10,7 +10,8 @@ export default class Thread {
     }
 
     async run(...params) {
-        let result = await this.#pool.exec(this.#task, params);
+        let task = this.#task;
+        let result = await this.#pool.exec(task, params);
         this.#pool.terminate();
         return result;
     }

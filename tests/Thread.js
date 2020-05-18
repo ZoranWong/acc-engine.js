@@ -1,3 +1,5 @@
+const data = require('./threadData');
+
 class Thread {
     // static path = PATH;
     constructor() {
@@ -5,7 +7,7 @@ class Thread {
     }
 
     run() {
-        console.log('------------- run ---------');
+        console.log('------------- run ---------', data);
         return true;
     }
 }
