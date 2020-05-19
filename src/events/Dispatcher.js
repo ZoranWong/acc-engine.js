@@ -1,8 +1,9 @@
 import Listener from './Listener';
 export default class Dispatcher {
     #listeners = new WeakMap();
-    constructor() {
-
+    #app = null;
+    constructor(app) {
+        this.#app = app;
     }
 
     on(event, listener) {
@@ -50,14 +51,10 @@ export default class Dispatcher {
                 }
 
                 let id = setTimeout(() => {
-                    try {
+                    if(this.#app.isClass(listener)) {
                         let handler = new listener();
-                        if(handler instanceof Listener) {
-                            handler.handle(event);
-                        } else {
-                            listener(event);
-                        }
-                    } catch (e) {
+                        handler.handle(event);
+                    } else {
                         listener(event);
                     }
                     clearTimeout(id);
