@@ -13,8 +13,7 @@ export default class CommandServiceProvider extends ServiceProvider {
                 }
 
                 commands.forEach(/**@param {Function|Command} command*/(command) => {
-
-                    this.commands[command.name()] = new commnad(this);
+                    this.commands.set(command['name'](), new command(this));
                 });
             },
             command(...params) {
@@ -22,8 +21,8 @@ export default class CommandServiceProvider extends ServiceProvider {
             }
         });
         this.app.bindMethod('command', (commandName, ...params) => {
-            let command = this.app.commands[commandName];
-            return command.handle.apply(command, params)
+            let command = this.app.commands.get(commandName);
+            return command.handle(...params);
         });
     }
 }

@@ -1,7 +1,37 @@
 import Container from '@zoranwong/pure-container';
 import md5 from 'md5';
+import Client from "../io/http/Client";
+import Adapter from "../io/http/Adapter";
+import Dispatcher from "../events/Dispatcher";
+import Repository from "../config/Repository";
+import Database from "../models/Database";
+import WorkerManager from "../worker/WorkerManager";
 const providers = new Map();
 const globalProviderRegistered = new Map();
+/**
+ * @property {WorkerManager} workerManager
+ * @property {Database} db
+ * @property {Map} commands
+ * @property {Repository|Proxy<Repository>} config
+ * @property {Dispatcher} dispatcher
+ * @property {Adapter} httpAdapter
+ * @property {Client} http
+ * @property {Function} bindMethod
+ * @property {Function} callMethodBinding
+ * @property {Function} instance
+ * @property {Function} bind
+ * @property {Function} singleton
+ * @property {Function} hasMethodBinding
+ * @property {Function} make
+ * @property {Function} get
+ * @property {Function} mixin
+ * @property {Function} extend
+ * @property {Function} registerCommand
+ * @property {Function} command
+ * @property {Function} on
+ * @property {Function} once
+ * @property {Function} emitter
+ * */
 export default class Application extends Container {
     #rootPath = null;
     #serviceProviders = null;
