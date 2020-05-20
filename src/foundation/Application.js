@@ -31,6 +31,7 @@ const globalProviderRegistered = new Map();
  * @property {Function} on
  * @property {Function} once
  * @property {Function} emitter
+ * @property {Function} getProxy
  * */
 export default class Application extends Container {
     #rootPath = null;
@@ -62,10 +63,12 @@ export default class Application extends Container {
      * @return {Container|Application|Proxy}
      */
     static getInstance() {
-        if(!Application._instance) {
-            Application._instance = new Application();
+        /**@var {Application} instance*/
+        let instance = Application._instance;
+        if(!instance) {
+            Application._instance = instance = new Application();
         }
-        return Application._instance.getProxy();
+        return instance.getProxy();
     }
 
     register() {
