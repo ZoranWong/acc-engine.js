@@ -1,8 +1,10 @@
 export default class Database {
     #driver = null;
     #store = {};
-    constructor() {
-
+    #app = null;
+    constructor(app, driver) {
+        this.#app = app;
+        this.#driver = driver;
     }
 
     get store() {
