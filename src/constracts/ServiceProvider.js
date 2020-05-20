@@ -3,7 +3,7 @@ import Application from '../foundation/Application';
  * [app description]
  * @class ServiceProvider
  * @property {Application} app
- * @constructor {[ServiceProvider]}
+ * @constructor {ServiceProvider}
  */
 export default class ServiceProvider {
     /**
