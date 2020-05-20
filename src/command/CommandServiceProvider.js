@@ -2,6 +2,7 @@ import ServiceProvider from '../constracts/ServiceProvider';
 import {
     isArray
 } from 'underscore';
+import Command from "./Command";
 export default class CommandServiceProvider extends ServiceProvider {
     register() {
         this.app.instance('commands', new Map());
@@ -10,7 +11,9 @@ export default class CommandServiceProvider extends ServiceProvider {
                 if(!isArray(commands)) {
                     commands = [commands];
                 }
-                commands.forEach((command) => {
+
+                commands.forEach(/**@param {Function|Command} command*/(command) => {
+
                     this.commands[command.name()] = new commnad(this);
                 });
             },

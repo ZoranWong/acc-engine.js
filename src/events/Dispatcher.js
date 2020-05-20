@@ -1,11 +1,20 @@
 import Listener from './Listener';
+import Application from "../foundation/Application";
+import Event from './Event';
 export default class Dispatcher {
     #listeners = new WeakMap();
+    /**
+     * @property {Application} #app
+     * */
     #app = null;
     constructor(app) {
         this.#app = app;
     }
 
+    /**
+     * @param {Event} event
+     * @param {Listener} listener
+     * */
     on(event, listener) {
         let listeners = this.#listeners.get(event);
         if(!this.#listeners.has(event)) {
@@ -20,7 +29,10 @@ export default class Dispatcher {
             });
         }
     }
-
+    /**
+     * @param {Event} event
+     * @param {Listener} listener
+     * */
     once(event, listener) {
         let listeners = this.#listeners.get(event);
         if(!this.#listeners.has(event)) {
@@ -35,7 +47,9 @@ export default class Dispatcher {
             });
         }
     }
-
+    /**
+     * @param {Event} event
+     * */
     emitter(event) {
         let _constructor = event.constructor;
         let listeners = this.#listeners[_constructor];
@@ -46,12 +60,12 @@ export default class Dispatcher {
                     once
                 } = item;
 
-                if(item['once']) {
+                if(once) {
                     listeners.splice(index, 1);
                 }
 
                 let id = setTimeout(() => {
-                    if(this.#app.isClass(listener)) {
+                    if(this.app.isClass(listener)) {
                         let handler = new listener();
                         handler.handle(event);
                     } else {
@@ -61,5 +75,12 @@ export default class Dispatcher {
                 }, 100);
             })
         }
+    }
+
+    /**
+    * @return {Application}
+    * */
+    get app() {
+        return this.#app;
     }
 }
