@@ -1,12 +1,15 @@
 import ServiceProvider from '../constracts/ServiceProvider';
 import {
-    isArray
+    isArray,
+    each
 } from 'underscore';
 import Command from "./Command";
 
 export default class CommandServiceProvider extends ServiceProvider {
     register() {
-        this.app.instance('commands', new Map());
+        this.app.singleton('commands', () => {
+            return new Map();
+        });
         this.app.mixin({
             registerCommand(...commands) {
                 let commandMap = {};
@@ -17,17 +20,15 @@ export default class CommandServiceProvider extends ServiceProvider {
                     commandMap = commands[0];
                 }
 
-                commandMap.forEach(/**@param {Function|Command} command*/(command, key) => {
+                each(commandMap, /**@param {Function|Command} command*/(command, key) => {
                     this.commands.set(key, new command(this));
                 });
             },
-            command(...params) {
-                return this.callMethodBinding('command', params);
+            command(commandName, ...params) {
+                let command = this.commands.get(commandName);
+                if (command)
+                    return command.handle(...params);
             }
-        });
-        this.app.bindMethod('command', (commandName, ...params) => {
-            let command = this.app.commands.get(commandName);
-            return command.handle(...params);
         });
     }
 }
