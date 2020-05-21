@@ -1,11 +1,16 @@
 import _ from 'underscore';
+import Application from "../foundation/Application";
 
 export default class Pipeline {
+    /**@property {Application} _container*/
     _container = null;
     _passable = null;
     _pipes = [];
     _method = 'handle';
 
+    /**
+     * @param {Application} container
+     * */
     constructor(container) {
         this._container = container;
     }
@@ -46,11 +51,11 @@ export default class Pipeline {
     _carry() {
         return async (stack, pipe) => {
             return async (passable) => {
-                if(_.isFunction(pipe) && !this.isClass(pipe)) {
+                if (_.isFunction(pipe) && !this.isClass(pipe)) {
                     return await pipe(passable, stack);
-                } else if(_.isString(pipe)) {
+                } else if (_.isString(pipe)) {
                     pipe = this._container[pipe];
-                } else if(this.isClass(pipe)) {
+                } else if (this.isClass(pipe)) {
                     pipe = new pipe();
                 }
                 return pipe.hasOwnProperty(this._method) ? await pipe[this._method](passable, stack) : null;
@@ -59,6 +64,13 @@ export default class Pipeline {
     }
 
     isClass(obj) {
-        return this._container.isClass(obj);
+        return this.container.isClass(obj);
+    }
+
+    /**
+     * @return {Application}
+     * */
+    get container() {
+        return this._container;
     }
 }

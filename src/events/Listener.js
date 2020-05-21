@@ -11,7 +11,7 @@ export default class Listener {
         this.#app = app;
     }
     /**
-     * @param {Event} event
+     * @param {EventInterface} event
      * */
     handle(event) {}
 }

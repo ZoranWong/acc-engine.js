@@ -1,17 +1,25 @@
-import workerpool from 'workerpool';
+import workerPool from 'workerpool';
 import Thread from './Thread';
+import PoolInterface from "./PoolInterface";
 export default class WorkerManager {
     #app = null;
     #pool = null;
     #workers = {};
     constructor(app) {
         this.#app = app;
-        this.#pool = workerpool.pool();
+        this.#pool = workerPool.pool();
     }
 
     thread(name, thread) {
-        this.#workers[name] = new Thread(name, thread, this.#pool);
+        this.#workers[name] = new Thread(name, thread, this.pool);
         return this;
+    }
+
+    /**
+     * @return {PoolInterface}
+     * */
+    get pool() {
+        return this.#pool;
     }
 
     run(name) {

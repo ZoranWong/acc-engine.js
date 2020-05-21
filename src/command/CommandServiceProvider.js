@@ -3,17 +3,22 @@ import {
     isArray
 } from 'underscore';
 import Command from "./Command";
+
 export default class CommandServiceProvider extends ServiceProvider {
     register() {
         this.app.instance('commands', new Map());
         this.app.mixin({
-            registerCommand(commands) {
-                if(!isArray(commands)) {
-                    commands = [commands];
+            registerCommand(...commands) {
+                let commandMap = {};
+                if (commands.length === 2) {
+                    let [key, command] = commands;
+                    commandMap[key] = command;
+                } else if (commands.length && !isArray(commands[0])) {
+                    commandMap = commands[0];
                 }
 
-                commands.forEach(/**@param {Function|Command} command*/(command) => {
-                    this.commands.set(command['name'](), new command(this));
+                commandMap.forEach(/**@param {Function|Command} command*/(command, key) => {
+                    this.commands.set(key, new command(this));
                 });
             },
             command(...params) {

@@ -10,12 +10,10 @@ app.config.app.version = '0.0.1'
 it('worker register function is ok!', async function () {
     let result = await app.workerManager.thread('task1', task1)
         .run('task1')(app.rootPath + '/Thread.js');
-    console01('------ run start ------');
     expect(result)
         .toEqual(true);
-    console01('------ run end ------');
 });
-
+console01('------ run test ------');
 function console01(context) {
     console.log(context);
 }
