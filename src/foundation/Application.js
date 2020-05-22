@@ -4,7 +4,7 @@ import Client from "../io/http/Client";
 import Adapter from "../io/http/Adapter";
 import Dispatcher from "../events/Dispatcher";
 import Repository from "../config/Repository";
-import Database from "../models/Database";
+import Database from "../database/Database";
 import WorkerManager from "../worker/WorkerManager";
 const providers = new Map();
 const globalProviderRegistered = new Map();
@@ -32,6 +32,7 @@ const globalProviderRegistered = new Map();
  * @property {Function} once
  * @property {Function} emitter
  * @property {Function} getProxy
+ * @property {Function} getDBDriver
  * */
 export default class Application extends Container {
     #rootPath = null;
