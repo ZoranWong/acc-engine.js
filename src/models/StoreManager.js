@@ -17,5 +17,7 @@ export  default  class StoreManager {
 
     }
 
-    modelProxy(model) {}
+    modelProxy(model) {
+
+    }
 }
