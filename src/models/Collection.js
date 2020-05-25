@@ -60,7 +60,7 @@ export default class Collection {
     }
     find(...params) {
         if(params.length === 1) {
-            params.lpush('id');
+            params.push('id');
         }
         return first(this.#where(...params));
     }
