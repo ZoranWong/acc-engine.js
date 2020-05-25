@@ -1,11 +1,14 @@
 import Application from "../../foundation/Application";
 import Adapter from "./Adapter";
 import {extend} from 'underscore';
+import Pipeline from "../../pipeline/Pipeline";
 export default class Client {
     #app = null;
     #commonHeaders = {};
+    #pipe = null;
     constructor(app, headers) {
         this.#app = app;
+        this.#pipe = new Pipeline(app);
         this.#commonHeaders = headers;
     }
     /**
@@ -30,6 +33,13 @@ export default class Client {
         return this.#app;
     }
 
+    /**
+     * @return {Pipeline}
+     * */
+    get pipeline(){
+        return this.#pipe;
+    }
+
     async get(url, queries = {}) {
         return  await this.adapter.get(url, queries);
     }
@@ -52,18 +62,28 @@ export default class Client {
      * */
     async send(request, responseClass) {
         this.headers = extend(this.headers, this.#commonHeaders, await request.headers);
-        let url = request.uri;
-        switch (request.method) {
-            case 'GET':
-                return await this.get(url, request.data);
-            case 'POST':
-                return await this.post(url, request.data);
-            case 'PUT':
-                return await this.put(url, request.data);
-            case 'DELETE':
-                return await this.del(url, request.data)
-        }
+        return  await this.pipeline.send(request).then(/**@param {Request} request*/async (request) => {
+            let url = request.uri;
+            let response = null;
+            switch (request.method) {
+                case 'GET':
+                    response = await this.get(url, request.data);
+                    break;
+                case 'POST':
+                    response = await this.post(url, request.data);
+                    break;
+                case 'PUT':
+                    response = await this.put(url, request.data);
+                    break;
+                case 'DELETE':
+                    response = await this.del(url, request.data);
+                    break;
+            }
+            if(response){
+                return  new responseClass(response);
+            }
+            return null;
+        });
 
-        return null;
     }
 }
