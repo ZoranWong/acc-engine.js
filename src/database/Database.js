@@ -12,7 +12,7 @@ export default class Database {
     }
 
     get store() {
-        return new this.driver(this.#store);
+        return new this.driver();
     }
 
     /**
