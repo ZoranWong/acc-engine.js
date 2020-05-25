@@ -54,7 +54,7 @@ export default class Pipeline {
                 if (_.isFunction(pipe) && !this.isClass(pipe)) {
                     return await pipe(passable, stack);
                 } else if (_.isString(pipe)) {
-                    pipe = this._container[pipe];
+                    pipe = this.container.get(pipe);
                 } else if (this.isClass(pipe)) {
                     pipe = new pipe();
                 }
