@@ -56,9 +56,12 @@ export default class Pipeline {
                 } else if (_.isString(pipe)) {
                     pipe = this.container.get(pipe);
                 } else if (this.isClass(pipe)) {
-                    pipe = new pipe();
+                    pipe = new pipe(this._container);
                 }
-                return pipe.hasOwnProperty(this._method) ? await pipe[this._method](passable, stack) : null;
+                if(pipe.hasOwnProperty(this._method))
+                    return await pipe[this._method](passable, stack)
+                else
+                    throw TypeError(`middleware has no ${this._method} method!`);
             }
         }
     }
