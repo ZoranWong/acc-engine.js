@@ -7,7 +7,7 @@ export default class Adapter {
     #gateway = '';
     constructor(app) {
         this.#app = app;
-        this.#gateway = app.http.config.gateway;
+        this.#gateway = app.config.http.gateway;
     }
 
     trim(str, x) {

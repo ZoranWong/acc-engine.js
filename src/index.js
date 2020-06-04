@@ -8,6 +8,7 @@ import ListenerInterface from "./events/Listener";
 import Model from "./models/Model";
 import Collection from "./models/Collection";
 import HttpAdapter from "./io/http/Adapter";
+import Request from "./io/http/Request";
 
 const app = Application.getInstance();
 app.registerProvider(ConfigServiceProvider);
@@ -19,5 +20,6 @@ export {
     ListenerInterface,
     Model,
     Collection,
-    HttpAdapter
+    HttpAdapter,
+    Request
 };

@@ -2,15 +2,18 @@ import Application from "../../foundation/Application";
 import Adapter from "./Adapter";
 import {extend} from 'underscore';
 import Pipeline from "../../pipeline/Pipeline";
+
 export default class Client {
     #app = null;
     #commonHeaders = {};
     #pipe = null;
+
     constructor(app, headers) {
         this.#app = app;
         this.#pipe = new Pipeline(app);
         this.#commonHeaders = headers;
     }
+
     /**
      * @return {Adapter}
      * */
@@ -24,34 +27,35 @@ export default class Client {
         this.adapter.headers = val;
     }
 
-    get headers () {
+    get headers() {
         return this.adapter.headers;
     }
 
     /**
      * @return {Application}
      * */
-    get app(){
+    get app() {
         return this.#app;
     }
 
     /**
      * @return {Pipeline}
      * */
-    get pipeline(){
+    get pipeline() {
         return this.#pipe;
     }
 
     async get(url, queries = {}) {
-        return  await this.adapter.get(url, queries);
+        console.log('=============== GET ===========');
+        return await this.adapter.get(url, queries);
     }
 
     async post(url, data = {}) {
-        return  await this.adapter.post(url, data);
+        return await this.adapter.post(url, data);
     }
 
     async del(url, queries = {}) {
-        return  await this.adapter.del(url, queries);
+        return await this.adapter.del(url, queries);
     }
 
     async put(url, data = {}) {
@@ -63,32 +67,36 @@ export default class Client {
      * @property {FunctionConstructor} responseClass
      * */
     async send(request, responseClass) {
-        this.headers = extend(this.headers, this.#commonHeaders, await request.headers);
+        let headers = await request.headers;
+        this.headers = extend(this.headers, this.#commonHeaders, headers);
         let middleware = this.app.config.http.middleware.concat(request.middlewareList);
-        return  await this.pipeline
+        console.log('===================== send 1===========', request);
+        return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
-            let url = request.uri;
-            let response = null;
-            switch (request.method) {
-                case 'GET':
-                    response = await this.get(url, request.data);
-                    break;
-                case 'POST':
-                    response = await this.post(url, request.data);
-                    break;
-                case 'PUT':
-                    response = await this.put(url, request.data);
-                    break;
-                case 'DELETE':
-                    response = await this.del(url, request.data);
-                    break;
-            }
-            if(response){
-                return  new responseClass(response);
-            }
-            return null;
-        });
+                console.log('===================== send ===========', request);
+                let url = request.uri;
+                let response = null;
+                switch (request.method) {
+                    case 'GET':
+                        response = await this.get(url, request.data);
+                        break;
+                    case 'POST':
+                        response = await this.post(url, request.data);
+                        break;
+                    case 'PUT':
+                        response = await this.put(url, request.data);
+                        break;
+                    case 'DELETE':
+                        response = await this.del(url, request.data);
+                        break;
+                }
+                console.log(response);
+                // if (response) {
+                //     return new responseClass(response);
+                // }
+                return response;
+            });
 
     }
 }

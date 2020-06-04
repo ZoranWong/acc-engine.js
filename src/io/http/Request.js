@@ -1,16 +1,16 @@
 export default class Request {
-    #headers = {};
-    #data = {};
-    #uri = '';
-    #method = '';
-    #middlewareList = [];
+    _headers = {};
+    _data = {};
+    _uri = '';
+    _method = '';
+    _middlewareList = [];
 
     get method() {
-        return this.#method;
+        return this._method;
     }
 
     async getHeaders() {
-        return  this.headers;
+        return  this._headers;
     }
 
     get headers() {
@@ -18,14 +18,14 @@ export default class Request {
     }
 
     get data() {
-        return this.#data;
+        return this._data;
     }
 
     get uri() {
-        return this.#uri;
+        return this._uri;
     }
 
     get middlewareList(){
-        return this.#middlewareList;
+        return this._middlewareList;
     }
 }
