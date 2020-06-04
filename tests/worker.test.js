@@ -13,7 +13,6 @@ it('worker register function is ok!', async function () {
     expect(result)
         .toEqual(true);
 });
-console01('------ run test ------');
 function console01(context) {
     console.log(context);
 }

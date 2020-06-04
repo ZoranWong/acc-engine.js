@@ -4,10 +4,30 @@ export default class Adapter {
     #method = '';
     #app = null;
     #headers = {};
+    #gateway = '';
     constructor(app) {
         this.#app = app;
+        this.#gateway = app.http.config.gateway;
     }
 
+    trim(str, x) {
+        let reg = new RegExp(`^\${x}+|\${x}+$`);
+        return str.replace(reg,'');
+    }
+
+    get method() {
+        return this.#method.toUpperCase();
+    }
+
+    get url(){
+        return this.trim(this.#gateway, '/') + '/' + this.trim(this.#url, '/');
+    }
+    /**
+     * @return {String}
+     * */
+    get gateway() {
+        return this.#gateway;
+    }
     set headers (val) {
         this.#headers = val;
     }
@@ -42,5 +62,9 @@ export default class Adapter {
         this.#data = data;
         this.#method = 'DELETE';
         return null;
+    }
+
+    get data () {
+        return this.#data;
     }
 }

@@ -38,10 +38,9 @@ export default class Application extends Container {
     #rootPath = null;
     #serviceProviders = null;
     #providerRegistered = null;
-    #config = {};
     #lifeCycles = {
         beforeCreated: () => {
-            this.registerServiceProviders();
+            Application.getInstance().registerServiceProviders();
         },
         created: () => {
             this.boot();
@@ -108,7 +107,7 @@ export default class Application extends Container {
     }
 
     registerServiceProviders() {
-        let config = this.get('config');
+        let config = this.config;
         if(config && config.app && config.app.providers) {
             config.app.providers.forEach((provider) => {
                 if(!this.providerRegistered(provider)) {

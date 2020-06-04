@@ -5,7 +5,6 @@ import fs from 'fs';
 
 
 app.run();
-
 class TestEvent extends EventInterface {
     constructor(event) {
         super(event);

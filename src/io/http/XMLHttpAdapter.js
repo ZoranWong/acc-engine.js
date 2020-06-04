@@ -10,7 +10,7 @@ export default class XMLHttpAdapter extends Adapter {
                 request.setRequestHeader(key, this.headers[key]);
             }
 
-            request.open(this.#method, this.#url, true);
+            request.open(this.method, this.url, true);
             request.onreadystatechange((request, event) =>{
                 if(request.readyState === XMLHttpRequest.DONE) {
                     let status = request.status;
@@ -22,7 +22,7 @@ export default class XMLHttpAdapter extends Adapter {
                     }
                 }
             });
-            request.send();
+            request.send(this.data);
         })
     }
     async get(url, queries = {}) {

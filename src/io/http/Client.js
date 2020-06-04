@@ -16,7 +16,9 @@ export default class Client {
      * */
     get adapter() {
         return this.app.httpAdapter;
+
     }
+
 
     set headers(val) {
         this.adapter.headers = val;
