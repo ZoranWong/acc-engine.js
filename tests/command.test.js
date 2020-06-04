@@ -1,8 +1,5 @@
 import app from '../src/index';
 import Command from "../src/command/Command";
-import fs from 'fs';
-
-
 app.run();
 
 class TestCommand extends Command {
