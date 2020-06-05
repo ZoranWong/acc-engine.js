@@ -1,6 +1,8 @@
 import {
     extend,
-    isString
+    isString,
+    isObject,
+    isArray
 } from 'underscore';
 export default class Repository {
     #items = {};
@@ -17,8 +19,21 @@ export default class Repository {
             temp[k] = data;
             data = temp;
         });
-        extend(this.#items, data);
+        this.extend(this.#items, data);
         return value;
+    }
+
+    extend(des, sources) {
+        for(let k in sources) {
+            if(isObject(sources[k]) && !isArray(sources[k])) {
+                if(!des[k]) {
+                    des[k] = {};
+                }
+                this.extend(des[k], sources[k]);
+            }else{
+                des[k] = sources[k];
+            }
+        }
     }
 
     getProp(key) {

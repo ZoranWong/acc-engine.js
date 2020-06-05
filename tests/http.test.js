@@ -1,5 +1,6 @@
 import app from '../src/index';
 import {Request} from "../src/index";
+import _ from 'underscore';
 
 class SearchRequest extends Request {
     _method = 'GET';
@@ -20,8 +21,8 @@ class SearchRequest extends Request {
 app.run();
 app.config.http = {
     gateway: 'https://www.neptune.kingdomcloud.cn',
-    headers: {},
-    middleware: []
+    // headers: {},
+    // middleware: []
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());
