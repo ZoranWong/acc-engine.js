@@ -1,4 +1,5 @@
 import Adapter from './Adapter';
+import Response from "./Response";
 
 export default class XMLHttpAdapter extends Adapter {
     constructor(app) {
@@ -6,45 +7,37 @@ export default class XMLHttpAdapter extends Adapter {
     }
 
     #xmlHttpRequest() {
-        console.log('---------------', this.method, this.url);
         return new Promise((resolve, reject) => {
-            console.log('========== 1111 ======')
             let request = new XMLHttpRequest();
             for (let key in this.headers) {
                 request.setRequestHeader(key, this.headers[key]);
             }
-            console.log('========== 2222 ======')
             request.open(this.method, this.url, true);
-            console.log('========== 333 ======')
             try{
                 request.onreadystatechange = function (event) {
                     if (request.readyState === XMLHttpRequest.DONE) {
-                        console.log("================ response ===========", request.status)
                         let status = request.status;
-                        if (status === 0 || (status >= 200 && status < 400)) {
-                            return resolve(true);
+                        if (status >= 200 && status < 400) {
+
+                            return resolve(new Response(true, status, request.responseText));
                         } else {
                             // Oh no! There has been an error with the request!
-                            return resolve(false);
+                            return resolve(new Response(false, status, request.responseText));
                         }
-                    }else{
-                        resolve(false);
                     }
                 };
                 request.onerror = (errnoError) => {
-                    console.log(errnoError)
+                    resolve(new Response(false, request.status, request.responseText));
                 }
-                request.send();
+                request.send(this.data);
             }catch (e) {
-                // console.log(e);
+                resolve(new Response(false, request.status, request.responseText));
             }
         })
     }
 
     async get(url, queries = {}) {
-        console.log('=============== GET ===========', 1);
         await super.get(url, queries);
-        console.log('=============== GET ===========', 2);
         return await this.#xmlHttpRequest();
     }
 

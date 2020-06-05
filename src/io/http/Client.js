@@ -46,7 +46,6 @@ export default class Client {
     }
 
     async get(url, queries = {}) {
-        console.log('=============== GET ===========');
         return await this.adapter.get(url, queries);
     }
 
@@ -70,11 +69,9 @@ export default class Client {
         let headers = await request.headers;
         this.headers = extend(this.headers, this.#commonHeaders, headers);
         let middleware = this.app.config.http.middleware.concat(request.middlewareList);
-        console.log('===================== send 1===========', request);
         return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
-                console.log('===================== send ===========', request);
                 let url = request.uri;
                 let response = null;
                 switch (request.method) {
@@ -91,7 +88,6 @@ export default class Client {
                         response = await this.del(url, request.data);
                         break;
                 }
-                console.log(response);
                 // if (response) {
                 //     return new responseClass(response);
                 // }

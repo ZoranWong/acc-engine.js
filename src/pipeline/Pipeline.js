@@ -31,7 +31,7 @@ export default class Pipeline {
     }
 
     async then(destination) {
-        let pipeline = this._pipes.reverse()
+        let pipeline = await this._pipes.reverse()
             .reduce(this._carry(), this._prepareDestination(destination));
         return await pipeline(this._passable);
     }
@@ -67,7 +67,11 @@ export default class Pipeline {
     }
 
     isClass(obj) {
-        return this.container.isClass(obj);
+        try {
+            return this.container.isClass(obj);
+        }catch (e) {
+            return false;
+        }
     }
 
     /**
