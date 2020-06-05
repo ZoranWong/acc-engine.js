@@ -88,9 +88,6 @@ export default class Client {
                         response = await this.del(url, request.data);
                         break;
                 }
-                // if (response) {
-                //     return new responseClass(response);
-                // }
                 return response;
             });
 
