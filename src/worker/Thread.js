@@ -1,21 +1,17 @@
 import PoolInterface from "./PoolInterface";
 export default class Thread {
     #threadId = null;
-    #task = null;
     #name = null;
     /**@property {PoolInterface} #pool*/
     #pool = null;
-    constructor(name, task, pool) {
+    constructor(name, pool) {
         this.#name = name;
-        this.#task = task;
         this.#pool = pool;
         this.#threadId = (new Date()).getTime();
     }
 
     async run(...params) {
-
-        let task = this.#task;
-        let result = await this.pool.exec(task, params);
+        let result = await this.pool.exec('main', params);
         this.pool.terminate();
         return result;
     }
