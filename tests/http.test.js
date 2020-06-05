@@ -1,11 +1,10 @@
 import app from '../src/index';
 import {Request} from "../src/index";
-import _ from 'underscore';
 
 class SearchRequest extends Request {
     _method = 'GET';
     _uri = '/api/mp/activities';
-    _middlewareList = [async function (request, next) {
+    _middleware = [async function (request, next) {
         console.log('==================== 1 ================')
         let response = await next(request);
         console.log('==================== 2 ================')
@@ -21,8 +20,6 @@ class SearchRequest extends Request {
 app.run();
 app.config.http = {
     gateway: 'https://www.neptune.kingdomcloud.cn',
-    // headers: {},
-    // middleware: []
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());

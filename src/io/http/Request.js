@@ -3,7 +3,7 @@ export default class Request {
     _data = {};
     _uri = '';
     _method = '';
-    _middlewareList = [];
+    _middleware = [];
 
     get method() {
         return this._method;
@@ -25,7 +25,7 @@ export default class Request {
         return this._uri;
     }
 
-    get middlewareList(){
-        return this._middlewareList;
+    get middleware(){
+        return this._middleware;
     }
 }

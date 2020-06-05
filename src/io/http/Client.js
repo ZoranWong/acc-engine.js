@@ -68,7 +68,7 @@ export default class Client {
     async send(request, responseClass) {
         let headers = await request.headers;
         this.headers = extend(this.headers, this.#commonHeaders, headers);
-        let middleware = this.app.config.http.middleware.concat(request.middlewareList);
+        let middleware = this.app.config.http.middleware.concat(request.middleware);
         return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
