@@ -50,6 +50,9 @@ export default class Pipeline {
 
     _carry() {
         return async (stack, pipe) => {
+            if(stack instanceof Promise){
+                stack = await stack;
+            }
             return async (passable) => {
                 if (_.isFunction(pipe) && !this.isClass(pipe)) {
                     return await pipe(passable, stack);

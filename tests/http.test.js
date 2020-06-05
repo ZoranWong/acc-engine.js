@@ -9,6 +9,11 @@ class SearchRequest extends Request {
         let response = await next(request);
         console.log('==================== 2 ================')
         return response;
+    }, async function (request, next) {
+        console.log('==================== 3 ================')
+        let response = await next(request);
+        console.log('==================== 4 ================')
+        return response;
     }];
 }
 
