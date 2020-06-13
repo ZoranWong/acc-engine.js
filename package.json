@@ -22,6 +22,7 @@
   "dependencies": {
     "@zoranwong/pure-container": "0.0.24",
     "md5": "^2.2.1",
+    "underscore": "^1.10.2",
     "workerpool": "^6.0.0"
   },
   "devDependencies": {

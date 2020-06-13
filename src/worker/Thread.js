@@ -1,4 +1,5 @@
 import PoolInterface from "./PoolInterface";
+import {isString} from "underscore";
 export default class Thread {
     #threadId = null;
     #name = null;
@@ -10,8 +11,13 @@ export default class Thread {
         this.#threadId = (new Date()).getTime();
     }
 
-    async run(...params) {
-        let result = await this.pool.exec('main', params);
+    async run(method, ...params) {
+        let worker = await this.pool.proxy();
+        if(typeof method === 'function'){
+            method.apply(worker, params);
+        }else if(isString(method)) {
+            worker[method](...params);
+        }
         this.pool.terminate();
         return result;
     }
