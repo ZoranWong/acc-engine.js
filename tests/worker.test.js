@@ -1,24 +1,25 @@
 const workerpool = require('workerpool');
 import app from '../src/index';
-import {
-    Thread
-} from './Thread';
 const pool = workerpool.pool();
 app.rootPath = __dirname;
 app.run();
 app.config.app.version = '0.0.1'
 it('worker register function is ok!', async function () {
-    let result = await app.workerManager.thread('task1');
-    console.log(await result.run(task1), __filename);
+    let thread = app.workerManager.thread();
+    console.log(await thread.run(task1), __filename);
     expect(true)
         .toEqual(true);
+
+    let th = app.workerManager.thread('task2', 'tests/Thread.js');
+    let worker =  await th.run();
+    console.log(worker);
 });
-function console01(context) {
-    console.log(context);
-}
 
 function task1() {
     return true;
 }
+// const thread = require('./Thread.js');
+// console.log(String(thread), thread);
 
-app.workerManager.thread('task2', 'tests/Thread.js');
+// workerpool.pool(__dirname+'/Thread.js');
+
