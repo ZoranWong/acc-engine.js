@@ -13,7 +13,7 @@ class TestEvent extends EventInterface {
 }
 
 class TestEventListener extends Listener {
-    handle(event) {
+    async handle(event) {
         console.log(event)
     }
 }

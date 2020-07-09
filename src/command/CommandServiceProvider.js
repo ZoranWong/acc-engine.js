@@ -10,6 +10,7 @@ export default class CommandServiceProvider extends ServiceProvider {
         this.app.singleton('commands', () => {
             return new Map();
         });
+        let commands = this.app.commands;
         this.app.mixin({
             registerCommand(...commands) {
                 let commandMap = {};
@@ -24,10 +25,10 @@ export default class CommandServiceProvider extends ServiceProvider {
                     this.commands.set(key, new command(this));
                 });
             },
-            command(commandName, ...params) {
-                let command = this.commands.get(commandName);
+            command: async (commandName, ...params) => {
+                let command = commands.get(commandName);
                 if (command)
-                    return command.handle(...params);
+                    return await command.handle(...params);
             }
         });
     }

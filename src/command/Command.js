@@ -13,7 +13,7 @@ export default class Command {
         this.#app = app;
     }
 
-    handle(...params) {
+    async handle(...params) {
 
     }
 }

@@ -23,7 +23,7 @@ app.config.http = {
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());
-    console.log(response, '==================== response =================')
+    console.log(response, response.body, response.headers, response.httpStatus, response.status, '==================== response =================')
     expect(response.status)
         .toEqual(true);
 });

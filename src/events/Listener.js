@@ -13,5 +13,5 @@ export default class Listener {
     /**
      * @param {EventInterface} event
      * */
-    handle(event) {}
+    async handle(event) {}
 }

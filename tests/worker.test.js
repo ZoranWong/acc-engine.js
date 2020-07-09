@@ -8,8 +8,7 @@ it('worker register function is ok!', async function () {
     console.log(await thread.run(task1), __filename);
     expect(true)
         .toEqual(true);
-
-    let th = app.workerManager.thread('task2', 'tests/Thread.js');
+    let th = app.workerManager.thread('task2', './tests/Thread.js');
     let worker =  await th.run();
     console.log(worker);
 });

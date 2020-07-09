@@ -1,35 +1,45 @@
 export default class Response {
     #body = null;
     #status = null;
+    #headers = {};
     #httpStatus = null;
 
-    constructor(status, httpStatus, body) {
-        this.#body = body;
-        this.#status = status;
-        this.#httpStatus = httpStatus;
+    constructor(status, httpStatus, body, headers = {}) {
+        this.body = body;
+        this.status = status;
+        this.httpStatus = httpStatus;
+        this.headers = headers;
     }
 
-    set httpStatus(v) {
-        this.#httpStatus = v;
+    set httpStatus(httpStatus) {
+        this.#httpStatus = httpStatus;
     }
 
     get httpStatus() {
         return this.#httpStatus;
     }
 
-    set status(v) {
-        this.#status = v;
+    set status(status) {
+        this.#status = status;
     }
 
     get status() {
         return this.#status;
     }
 
-    set body(v) {
-        this.#body = v;
+    set body(body) {
+        this.#body = body;
     }
 
     get body() {
         return JSON.parse(this.#body);
+    }
+
+    set headers(headers){
+        this.#headers = headers;
+    }
+
+    get headers() {
+        return this.#headers;
     }
 }

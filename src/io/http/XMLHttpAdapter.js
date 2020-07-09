@@ -2,27 +2,34 @@ import Adapter from './Adapter';
 import Response from "./Response";
 
 export default class XMLHttpAdapter extends Adapter {
-    constructor(app) {
+    constructor (app) {
         super(app);
     }
 
-    #xmlHttpRequest() {
+    #xmlHttpRequest () {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest();
             for (let key in this.headers) {
                 request.setRequestHeader(key, this.headers[key]);
             }
             request.open(this.method, this.url, true);
-            try{
+            try {
                 request.onreadystatechange = function (event) {
                     if (request.readyState === XMLHttpRequest.DONE) {
                         let status = request.status;
+                        let headerStr = request.getAllResponseHeaders();
+                        let headers = headerStr.split('\n');
+                        headers = headers.map((header, index) => {
+                            let [key, value] = header.split(':');
+                            header = {};
+                            header[key.trim()] = value.replace(/[\n\r\t]/, '').trim();
+                            return header;
+                        });
                         if (status >= 200 && status < 400) {
-
-                            return resolve(new Response(true, status, request.responseText));
+                            return resolve(new Response(true, status, request.responseText, headers));
                         } else {
                             // Oh no! There has been an error with the request!
-                            return resolve(new Response(false, status, request.responseText));
+                            return resolve(new Response(false, status, request.responseText, headers));
                         }
                     }
                 };
@@ -30,28 +37,28 @@ export default class XMLHttpAdapter extends Adapter {
                     resolve(new Response(false, request.status, request.responseText));
                 }
                 request.send(this.data);
-            }catch (e) {
+            } catch (e) {
                 resolve(new Response(false, request.status, request.responseText));
             }
         })
     }
 
-    async get(url, queries = {}) {
+    async get (url, queries = {}) {
         await super.get(url, queries);
         return await this.#xmlHttpRequest();
     }
 
-    async post(url, data = {}) {
+    async post (url, data = {}) {
         await super.post(url, data);
         return await this.#xmlHttpRequest();
     }
 
-    async put(url, data = {}) {
+    async put (url, data = {}) {
         await super.put(url, data);
         return await this.#xmlHttpRequest();
     }
 
-    async del(url, data = {}) {
+    async del (url, data = {}) {
         await super.del(url, data);
         return await this.#xmlHttpRequest();
     }
