@@ -108,6 +108,7 @@ export default class Application extends Container {
 
     registerServiceProviders() {
         let config = this.config;
+        console.log(config, '--------------- config --------------');
         if(config && config.app && config.app.providers) {
             config.app.providers.forEach((provider) => {
                 if(!this.providerRegistered(provider)) {
