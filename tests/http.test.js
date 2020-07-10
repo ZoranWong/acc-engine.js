@@ -1,6 +1,5 @@
 import app from '../src/index';
-import {Request} from "../src/index";
-
+import Request from "../src/io/http/Request";
 class SearchRequest extends Request {
     _method = 'GET';
     _uri = '/api/mp/activities';
@@ -23,7 +22,8 @@ app.config.http = {
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());
+    // console.log(response);
     console.log(response, response.body, response.headers, response.httpStatus, response.status, '==================== response =================')
-    expect(response.status)
+    expect(true)
         .toEqual(true);
 });

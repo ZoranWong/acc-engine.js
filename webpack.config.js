@@ -9,14 +9,6 @@ const isProd = process.env.NODE_ENV === 'production'
 module.exports = {
     entry: {
         main: './src/index.js',
-        command: './src/command/Command.js',
-        model: './src/models/Model.js',
-        collection: './src/models/Collection.js',
-        request: './src/io/http/Request.js',
-        serviceProvider: './src/constracts/ServiceProvider.js',
-        eventInterface: './src/events/EventInterface.js',
-        listener: './src/events/Listener.js',
-        httpAdapter: './src/io/http/Adapter.js'
     },
     output: {
         path: path.resolve(__dirname, 'lib'),

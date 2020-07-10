@@ -72,6 +72,7 @@ export default class Client {
         return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
+                console.log('---------------------')
                 let url = request.uri;
                 let response = null;
                 switch (request.method) {

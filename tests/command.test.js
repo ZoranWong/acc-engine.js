@@ -1,5 +1,5 @@
-import app, {Command} from '../src/index';
-// import Command from "../src/command/Command";
+import app from '../src/index';
+import Command from "../src/command/Command";
 app.run();
 
 class TestCommand extends Command {
