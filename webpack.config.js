@@ -15,7 +15,6 @@ module.exports = {
         filename: '[name].js',
         libraryTarget: 'umd2',
         library: 'acc-engine.js',
-        libraryExport: 'app',
         globalObject: 'this'
     },
     devtool: '#source-map',
