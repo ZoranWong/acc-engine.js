@@ -1,5 +1,5 @@
 const workerpool = require('workerpool');
-import app from '../src/index';
+import {app} from '../src/index';
 app.rootPath = __dirname;
 app.run();
 app.config.app.version = '0.0.1'

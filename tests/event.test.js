@@ -1,4 +1,4 @@
-import app from '../src/index';
+import {app} from '../src/index';
 import EventInterface from "../src/events/EventInterface";
 import Listener from "../src/events/Listener";
 import fs from 'fs';

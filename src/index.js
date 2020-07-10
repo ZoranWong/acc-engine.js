@@ -13,13 +13,15 @@ import Response  from './io/http/Response'
 
 const app = Application.getInstance();
 app.registerProvider(ConfigServiceProvider);
-export default app;
-exports.Command = Command;
-exports.ServiceProvider = ServiceProvider;
-exports.EventInterface = EventInterface;
-exports.ListenerInterface = ListenerInterface;
-exports.Model = Model;
-exports.Collection = Collection;
-exports.HttpAdapter = HttpAdapter;
-exports.Request = Request;
-exports.Response = Response;
+export {
+    Command,
+    ServiceProvider,
+    EventInterface,
+    ListenerInterface,
+    Model,
+    Collection,
+    HttpAdapter,
+    Response,
+    Request,
+    app
+};
