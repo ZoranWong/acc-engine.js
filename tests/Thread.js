@@ -1,6 +1,6 @@
 const workerPool = require('workerpool');
 const data = require('./threadData.worker');
-const p = require('../lib/main');
+// const p = require('../lib/main');
 // import data from './threadData.worker';
 class Thread {
     // static path = PATH;
@@ -17,4 +17,4 @@ workerPool.worker({
     worker: () => (new Thread()).run()
 })
 
-console.log();
+// console.log();

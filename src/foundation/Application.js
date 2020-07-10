@@ -6,8 +6,8 @@ import Dispatcher from "../events/Dispatcher";
 import Repository from "../config/Repository";
 import Database from "../database/Database";
 import WorkerManager from "../worker/WorkerManager";
-const providers = new Map();
-const globalProviderRegistered = new Map();
+const providers = new WeakMap();
+const globalProviderRegistered = new WeakMap();
 /**
  * @property {WorkerManager} workerManager
  * @property {Database} db
@@ -84,16 +84,14 @@ export default class Application extends Container {
     }
 
     providerRegistered(provider) {
-        let key = this.#providerToKey(provider);
-        return this.#providerRegistered.has(key);
+        return this.#providerRegistered.has(provider);
     }
 
     registerProvider(provider) {
         let p = new provider(this);
-        let key = this.#providerToKey(provider);
         p.register();
-        this.providers.set(key, p);
-        this.#providerRegistered.set(key, true);
+        this.providers.set(provider, p);
+        this.#providerRegistered.set(provider, true);
     }
 
     #providerToKey(provider) {
@@ -101,9 +99,9 @@ export default class Application extends Container {
     }
 
     boot() {
-        this.providers.forEach((provider) => {
+        for (let provider in this.providers) {
             provider.boot();
-        });
+        }
     }
 
     registerServiceProviders() {
