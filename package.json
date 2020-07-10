@@ -2,7 +2,7 @@
   "name": "@zoranwong/acc-engine.js",
   "version": "0.0.4",
   "description": "A javascript framework to accelerate your applicatin developement",
-  "main": "src/index.js",
+  "main": "lib/main.js",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles ./tests/",
     "watch": "webpack --mode development --watch",
