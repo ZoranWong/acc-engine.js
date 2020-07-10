@@ -15,3 +15,5 @@ class Thread {
 workerPool.worker({
     worker: () => (new Thread()).run()
 })
+
+console.log();

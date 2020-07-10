@@ -1,4 +1,4 @@
-import {app} from '../src/index';
+import app from '../src/index';
 import Request from "../src/io/http/Request";
 class SearchRequest extends Request {
     _method = 'GET';

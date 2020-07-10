@@ -25,3 +25,5 @@ export {
     Request,
     app
 };
+
+export default app;
