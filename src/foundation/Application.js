@@ -33,6 +33,7 @@ const globalProviderRegistered = new WeakMap();
  * @property {Function} emitter
  * @property {Function} getProxy
  * @property {Function} getDBDriver
+ * @static {Function} getInstance
  * */
 export default class Application extends Container {
     #rootPath = null;
