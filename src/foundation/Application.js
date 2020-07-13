@@ -94,9 +94,7 @@ export default class Application extends Container {
         this.#providerRegistered.set(provider, true);
     }
 
-    #providerToKey(provider) {
-        return md5(provider.toString());
-    }
+
 
     boot() {
         for (let provider in this.providers) {
@@ -115,6 +113,7 @@ export default class Application extends Container {
             });
         }
     }
+
     run() {
         //before app run
         this.#lifeCycles.beforeCreated();

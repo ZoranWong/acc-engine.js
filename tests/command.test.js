@@ -1,5 +1,5 @@
-import app, {Command} from '../src/index';
-// import Command from "../src/command/Command";
+import Application , {Command} from '../src/index';
+const app = Application.getInstance();
 app.run();
 class TestCommand extends Command {
     async handle(name) {

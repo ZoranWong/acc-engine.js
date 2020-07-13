@@ -1,9 +1,9 @@
-import app from '../src/index';
+import Application from '../src/index';
 import EventInterface from "../src/events/EventInterface";
 import Listener from "../src/events/Listener";
 import fs from 'fs';
 
-
+const app = Application.getInstance();
 app.run();
 class TestEvent extends EventInterface {
     constructor(event) {

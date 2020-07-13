@@ -1,5 +1,7 @@
-import app from '../src/index';
 import Request from "../src/io/http/Request";
+import Application from "../src";
+
+const app = Application.getInstance();
 class SearchRequest extends Request {
     _method = 'GET';
     _uri = '/api/mp/activities';
