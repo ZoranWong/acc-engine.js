@@ -11,7 +11,7 @@ module.exports = {
         main: './src/index.js',
     },
     output: {
-        path: path.resolve(__dirname, 'lib'),
+        path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
         libraryTarget: 'umd2',
         library: 'acc-engine.js',
