@@ -1,8 +1,6 @@
-import app from '../src/index';
-import Command from "../src/command/Command";
-// const p = require('../lib/main');
+import app, {Command} from '../src/index';
+// import Command from "../src/command/Command";
 app.run();
-// console.log(p);
 class TestCommand extends Command {
     async handle(name) {
         return true;
