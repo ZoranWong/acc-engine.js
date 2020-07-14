@@ -5,11 +5,12 @@ import EventServiceProvider from '../../events/EventServiceProvider';
 import ModelServiceProvider from '../../models/ModelServiceProvider';
 
 export default {
-    providers: [
+    bootstrapProviders: [
         WorkerServiceProvider,
         HttpServiceProvider,
         CommandServiceProvider,
         EventServiceProvider,
         ModelServiceProvider
-    ]
+    ],
+    providers: []
 }
