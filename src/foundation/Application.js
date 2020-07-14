@@ -6,6 +6,7 @@ import Dispatcher from "../events/Dispatcher";
 import Repository from "../config/Repository";
 import Database from "../database/Database";
 import WorkerManager from "../worker/WorkerManager";
+
 const providers = new WeakMap();
 const globalProviderRegistered = new WeakMap();
 /**
@@ -53,7 +54,8 @@ export default class Application extends Container {
 
         }
     }
-    constructor() {
+
+    constructor () {
         super();
         this.#serviceProviders = providers;
         this.#providerRegistered = globalProviderRegistered;
@@ -63,32 +65,35 @@ export default class Application extends Container {
      * 获取容器代理对象
      * @return {Container|Application|Proxy}
      */
-    static getInstance() {
+    static getInstance () {
         /**@var {Application} instance*/
         let instance = Application._instance;
-        if(!instance) {
+        if (!instance) {
             Application._instance = instance = new Application();
         }
         return instance.getProxy();
     }
 
-    register() {
+    register () {
 
     }
 
-    get providers() {
+    /**
+     * @return WeakMap
+     * */
+    get providers () {
         return this.#serviceProviders;
     }
 
-    set providers(providers) {
+    set providers (providers) {
         return this.#serviceProviders = providers;
     }
 
-    providerRegistered(provider) {
+    providerRegistered (provider) {
         return this.#providerRegistered.has(provider);
     }
 
-    registerProvider(provider) {
+    registerProvider (provider) {
         let p = new provider(this);
         p.register();
         this.providers.set(provider, p);
@@ -96,26 +101,30 @@ export default class Application extends Container {
     }
 
 
-
-    boot() {
-        for (let provider in this.providers) {
-            provider.boot();
+    boot () {
+        if (this.config && this.config.app && this.config.app.providers) {
+            this.config.providers.forEach((p) => {
+                if (this.providers.has(p)) {
+                    let provider = this.providers.get(p);
+                    provider.boot();
+                }
+            })
         }
     }
 
-    registerServiceProviders() {
+    registerServiceProviders () {
         let config = this.config;
         console.log(config, '--------------- config --------------');
-        if(config && config.app && config.app.providers) {
+        if (config && config.app && config.app.providers) {
             config.app.providers.forEach((provider) => {
-                if(!this.providerRegistered(provider)) {
+                if (!this.providerRegistered(provider)) {
                     this.registerProvider(provider);
                 }
             });
         }
     }
 
-    run() {
+    run () {
         //before app run
         this.#lifeCycles.beforeCreated();
         //after

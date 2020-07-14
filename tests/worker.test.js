@@ -1,8 +1,6 @@
-import Application from "../src";
-const workerpool = require('workerpool');
-
+import Application from "../lib";
+/**@var {Application} app*/
 const app = Application.getInstance();
-app.rootPath = __dirname;
 app.run();
 app.config.app.version = '0.0.1'
 it('worker register function is ok!', async function () {

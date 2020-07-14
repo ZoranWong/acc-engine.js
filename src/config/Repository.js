@@ -4,13 +4,15 @@ import {
     isObject,
     isArray
 } from 'underscore';
+
 export default class Repository {
     #items = {};
-    constructor(config) {
+
+    constructor (config) {
         this.#items = config;
     }
 
-    prop(key, value) {
+    prop (key, value) {
         let data = value;
         let keys = this.parseKey(key)
             .reverse();
@@ -23,24 +25,24 @@ export default class Repository {
         return value;
     }
 
-    extend(des, sources) {
-        for(let k in sources) {
-            if(isObject(sources[k]) && !isArray(sources[k])) {
-                if(!des[k]) {
+    extend (des, sources) {
+        for (let k in sources) {
+            if (isObject(sources[k]) && !isArray(sources[k])) {
+                if (!des[k]) {
                     des[k] = {};
                 }
                 this.extend(des[k], sources[k]);
-            }else{
+            } else {
                 des[k] = sources[k];
             }
         }
     }
 
-    getProp(key) {
+    getProp (key) {
         let keys = this.parseKey(key);
         let value = this.#items;
         keys.forEach((k) => {
-            if(typeof value !== 'undefined') {
+            if (typeof value !== 'undefined') {
                 value = value[k];
             } else {
                 value = null;
@@ -48,7 +50,8 @@ export default class Repository {
         });
         return value;
     }
-    parseKey(key) {
+
+    parseKey (key) {
         return isString(key) ? key.split('.') : [key];
     }
 }

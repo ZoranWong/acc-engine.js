@@ -1,5 +1,4 @@
-import Request from "../src/io/http/Request";
-import Application from "../src";
+import Application, {Request} from "../lib";
 
 const app = Application.getInstance();
 class SearchRequest extends Request {

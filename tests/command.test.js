@@ -1,6 +1,5 @@
 import Application , {Command} from '../lib';
 const app = Application.getInstance();
-console.log(app.serviceProviders);
 app.run();
 class TestCommand extends Command {
     async handle(name) {
@@ -12,3 +11,4 @@ test('event test !', async function () {
     expect(await app.command('TEST_COMMAND', 'test command'))
         .toEqual(true);
 });
+

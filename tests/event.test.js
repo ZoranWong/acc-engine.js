@@ -1,6 +1,4 @@
-import Application from '../src/index';
-import EventInterface from "../src/events/EventInterface";
-import Listener from "../src/events/Listener";
+import Application, {EventInterface, ListenerInterface as Listener} from '../lib';
 import fs from 'fs';
 
 const app = Application.getInstance();
