@@ -45,7 +45,7 @@ export default class Application extends Container {
             Application.getInstance().registerServiceProviders();
         },
         created: () => {
-            this.boot();
+            Application.getInstance().boot();
         },
         beforeDestroy: () => {
 
