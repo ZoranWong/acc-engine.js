@@ -103,7 +103,7 @@ export default class Application extends Container {
 
     boot () {
         if (this.config && this.config.app && this.config.app.providers) {
-            this.config.providers.forEach((p) => {
+            this.config.app.providers.forEach((p) => {
                 if (this.providers.has(p)) {
                     let provider = this.providers.get(p);
                     provider.boot();
