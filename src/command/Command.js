@@ -16,4 +16,11 @@ export default class Command {
     async handle(...params) {
 
     }
+
+    /**
+     * @return {Application}
+     * */
+    get app () {
+        return this.#app;
+    }
 }
