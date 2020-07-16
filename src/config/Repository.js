@@ -29,7 +29,7 @@ export default class Repository {
         for (let k in sources) {
             if (isObject(sources[k]) && !isArray(sources[k])) {
                 if (!des[k]) {
-                    des[k] = {};
+                    des[k] = sources[k];
                 }
                 this.extend(des[k], sources[k]);
             } else {
