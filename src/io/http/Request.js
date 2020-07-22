@@ -14,7 +14,7 @@ export default class Request {
     }
 
     get headers() {
-        return this.getHeaders();
+        return this._headers;
     }
 
     get data() {

@@ -5,13 +5,11 @@ import Pipeline from "../../pipeline/Pipeline";
 
 export default class Client {
     #app = null;
-    #commonHeaders = {};
     #pipe = null;
 
-    constructor(app, headers) {
+    constructor(app) {
         this.#app = app;
         this.#pipe = new Pipeline(app);
-        this.#commonHeaders = headers;
     }
 
     /**
@@ -67,7 +65,7 @@ export default class Client {
      * */
     async send(request, responseClass) {
         let headers = await request.headers;
-        this.headers = extend(this.headers, this.#commonHeaders, headers);
+        this.headers = extend(this.headers, this.app.config.http.headers, headers);
         let middleware = this.app.config.http.middleware.concat(request.middleware);
         return await this.pipeline
             .through(...middleware)
