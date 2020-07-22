@@ -32,7 +32,11 @@ export default class Response {
     }
 
     get body() {
-        return JSON.parse(this.#body);
+        try{
+            return this.#body ? JSON.parse(this.#body) : null;
+        }catch (e) {
+            return this.#body;
+        }
     }
 
     set headers(headers){

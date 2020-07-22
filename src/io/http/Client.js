@@ -6,7 +6,7 @@ import Pipeline from "../../pipeline/Pipeline";
 export default class Client {
     #app = null;
     #pipe = null;
-
+    #headers = {};
     constructor(app) {
         this.#app = app;
         this.#pipe = new Pipeline(app);
@@ -21,11 +21,11 @@ export default class Client {
 
 
     set headers(val) {
-        this.adapter.headers = val;
+        this.#headers = val;
     }
 
     get headers() {
-        return this.adapter.headers;
+        return this.#headers;
     }
 
     /**
@@ -43,19 +43,27 @@ export default class Client {
     }
 
     async get(url, queries = {}) {
-        return await this.adapter.get(url, queries);
+        let adapter = this.adapter;
+        adapter.headers = this.headers;
+        return await adapter.get(url, queries);
     }
 
     async post(url, data = {}) {
+        let adapter = this.adapter;
+        adapter.headers = this.headers;
         return await this.adapter.post(url, data);
     }
 
     async del(url, queries = {}) {
-        return await this.adapter.del(url, queries);
+        let adapter = this.adapter;
+        adapter.headers = this.headers;
+        return await adapter.del(url, queries);
     }
 
     async put(url, data = {}) {
-        return await this.adapter.put(url, data);
+        let adapter = this.adapter;
+        adapter.headers = this.headers;
+        return await adapter.put(url, data);
     }
 
     /**
@@ -63,13 +71,13 @@ export default class Client {
      * @property {FunctionConstructor} responseClass
      * */
     async send(request, responseClass) {
-        let headers = await request.headers;
+        let headers = request.headers;
         this.headers = extend(this.headers, this.app.config.http.headers, headers);
+        console.log(this.headers);
         let middleware = this.app.config.http.middleware.concat(request.middleware);
         return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
-                console.log('---------------------')
                 let url = request.uri;
                 let response = null;
                 switch (request.method) {
