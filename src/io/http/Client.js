@@ -68,9 +68,9 @@ export default class Client {
 
     /**
      * @property {Request} request
-     * @property {FunctionConstructor} responseClass
+     * @property {FunctionConstructor|null} responseClass
      * */
-    async send(request, responseClass) {
+    async send(request, responseClass = null) {
         let headers = request.headers;
         this.headers = extend(this.headers, this.app.config.http.headers, headers);
         console.log(this.headers);
@@ -79,6 +79,7 @@ export default class Client {
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
                 let url = request.uri;
+                /**@var {Response} response*/
                 let response = null;
                 switch (request.method) {
                     case 'GET':
@@ -94,7 +95,12 @@ export default class Client {
                         response = await this.del(url, request.data);
                         break;
                 }
-                return response;
+                if(response) {
+                    return responseClass ? new responseClass(response.status, response.httpStatus, response.body, response.headers) : response;
+                }else{
+                    return null;
+                }
+
             });
 
     }
