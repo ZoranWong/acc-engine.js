@@ -61,7 +61,7 @@ export default class Pipeline {
                 } else if (this.isClass(pipe)) {
                     pipe = new pipe(this._container);
                 }
-                if(pipe.hasOwnProperty(this._method))
+                if(typeof pipe[this._method] !== 'undefined')
                     return await pipe[this._method](passable, stack)
                 else
                     throw TypeError(`middleware has no ${this._method} method!`);
