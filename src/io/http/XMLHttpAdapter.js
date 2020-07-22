@@ -13,6 +13,8 @@ export default class XMLHttpAdapter extends Adapter {
             for (let key in this.headers) {
                 request.setRequestHeader(key, this.headers[key]);
             }
+            if (!this.headers['Content-Type'])
+                request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
             request.open(this.method, this.url, true);
             try {
                 request.onreadystatechange = function (event) {
