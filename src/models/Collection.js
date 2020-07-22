@@ -1,27 +1,34 @@
 import {
     isFunction,
     filter,
-    first
+    first, isArray
 } from 'underscore';
+
 export default class Collection {
-    #items = [];
-    constructor(items) {
-        this.#items = items;
+    items = [];
+
+    constructor (items = []) {
+        if (items instanceof Collection) {
+            items = items.items;
+        }
+        if (items)
+            this.items = items;
     }
-    #where(...params) {
-        if(params.length === 1) {
+
+    #where (...params) {
+        if (params.length === 1) {
             let callback = params[0];
-            if(isFunction(callback)) {
-                return filter(this.#items, callback);
+            if (isFunction(callback)) {
+                return filter(this.items, callback);
             }
-        } else if(params.length === 2) {
+        } else if (params.length === 2) {
             let [key, value] = params;
-            return filter(this.#items, (model) => {
+            return filter(this.items, (model) => {
                 return model[key] === value;
             })
-        } else if(params.length === 3) {
+        } else if (params.length === 3) {
             let [key, operator, value] = params;
-            return filter(this.#items, (model) => {
+            return filter(this.items, (model) => {
                 let result = false;
                 switch (operator) {
                     case '=':
@@ -53,19 +60,34 @@ export default class Collection {
                 return result;
             })
         }
-        return this.#items;
+        return this.items;
     }
-    where(...params) {
+
+    where (...params) {
         return new Collection(this.#where(...params));
     }
-    find(...params) {
-        if(params.length === 1) {
+
+    find (...params) {
+        if (params.length === 1) {
             params.push('id');
         }
         return first(this.#where(...params));
     }
 
-    first(...params) {
+    first (...params) {
         return first(this.#where(...params));
+    }
+
+    concat (...params) {
+        params.forEach((param) => {
+            if (!isArray(param)) {
+                param = [param];
+            }
+            this.items.concat(param);
+        });
+    }
+
+    push (...params) {
+        this.items.concat(params);
     }
 }
