@@ -11,7 +11,7 @@ export default class Adapter {
     }
 
     trim(str, x) {
-        let reg = new RegExp(`^\${x}+|\${x}+$`);
+        let reg = new RegExp(`^${x}+|${x}+$`);
         return str.replace(reg,'');
     }
 

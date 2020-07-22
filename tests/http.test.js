@@ -19,7 +19,7 @@ class SearchRequest extends Request {
 
 app.run();
 app.config.http = {
-    gateway: 'https://www.neptune.kingdomcloud.cn',
+    gateway: 'https://www.neptune.kingdomcloud.cn/',
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());

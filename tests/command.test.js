@@ -12,3 +12,9 @@ test('event test !', async function () {
         .toEqual(true);
 });
 
+function trim(str, x) {
+    let reg = new RegExp(`^(${x}+)|(${x}+)$`, 'g');
+    return str.replace(reg,'');
+}
+
+console.log(trim('//aaaa/', '/'))
