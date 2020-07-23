@@ -71,13 +71,15 @@ export default class Client {
      * @property {FunctionConstructor|null} responseClass
      * */
     async send(request, responseClass = null) {
-        let headers = request.headers;
-        this.headers = extend(this.headers, this.app.config.http.headers, headers);
+
+        this.headers = extend(this.headers, this.app.config.http.headers);
         console.log(this.headers);
         let middleware = this.app.config.http.middleware.concat(request.middleware);
         return await this.pipeline
             .through(...middleware)
             .send(request).then(/**@param {Request} request*/async (request) => {
+                let headers = request.headers;
+                this.headers = extend(this.headers, headers);
                 let url = request.uri;
                 /**@var {Response} response*/
                 let response = null;
