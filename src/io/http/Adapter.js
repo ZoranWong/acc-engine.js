@@ -20,8 +20,14 @@ export default class Adapter {
     }
 
     get url(){
-        return this.trim(this.#gateway, '/') + '/' + this.trim(this.#url, '/');
+        let query = '';
+        if(this.method === 'GET') {
+            query = this.#app.uri.query(this.data);
+        }
+        return this.trim(this.#gateway, '/') + '/' + this.trim(this.#url, '/') + query;
     }
+
+
     /**
      * @return {String}
      * */

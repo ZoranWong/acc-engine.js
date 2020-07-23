@@ -100,7 +100,6 @@ export default class Client {
                 }else{
                     return null;
                 }
-
             });
 
     }

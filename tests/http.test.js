@@ -20,9 +20,6 @@ class SearchRequest extends Request {
 app.run();
 app.config.http = {
     gateway: 'https://www.neptune.kingdomcloud.cn/',
-    headers: {
-        xxx: 'xxxx'
-    }
 };
 test('event test !', async function () {
     let response = await app.http.send(new SearchRequest());

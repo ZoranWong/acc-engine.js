@@ -9,6 +9,12 @@ import WorkerManager from "../worker/WorkerManager";
 
 const providers = new WeakMap();
 const globalProviderRegistered = new WeakMap();
+
+const NONE = 'NONE';
+const INITIALING = 'INITIALING';
+const RUNNING = 'RUNNING';
+const DESTROYED = 'DESTROYED';
+
 /**
  * @property {WorkerManager} workerManager
  * @property {Database} db
@@ -38,28 +44,35 @@ const globalProviderRegistered = new WeakMap();
  * */
 export default class Application extends Container {
     #rootPath = null;
-    #serviceProviders = null;
-    #providerRegistered = null;
+    /**@property {WeakMap} #serviceProviders*/
+    #serviceProviders;
+    /**@property {WeakMap} #providerRegistered*/
+    #providerRegistered;
+    #registerProviders = [];
+    status;
     #lifeCycles = {
         beforeCreated: () => {
             Application.getInstance().registerServiceProviders();
         },
         created: () => {
             Application.getInstance().boot();
+            Application.getInstance().status = RUNNING;
         },
         beforeDestroy: () => {
 
         },
         onDestroy: () => {
-
+            Application.getInstance().status = DESTROYED;
         }
     }
 
     constructor () {
         super();
+        this.status = NONE;
         this.#serviceProviders = providers;
         this.#providerRegistered = globalProviderRegistered;
     }
+
 
     /**
      * 获取容器代理对象
@@ -74,8 +87,8 @@ export default class Application extends Container {
         return instance.getProxy();
     }
 
-    register () {
-
+    register (provider) {
+        this.#registerProviders.push(provider);
     }
 
     /**
@@ -117,7 +130,7 @@ export default class Application extends Container {
         let appConfig = null;
         if (config && ( appConfig = config.app)) {
             if(appConfig.bootstrapProviders) {
-                appConfig.providers = appConfig.bootstrapProviders.concat(appConfig.providers ? appConfig.providers : []);
+                appConfig.providers = appConfig.bootstrapProviders.concat(appConfig.providers ? appConfig.providers : []).concat(this.#registerProviders);
             }
             if(appConfig.providers) {
                 appConfig.providers.forEach((provider) => {
@@ -130,6 +143,7 @@ export default class Application extends Container {
     }
 
     run () {
+        this.status = INITIALING;
         //before app run
         this.#lifeCycles.beforeCreated();
         //after
