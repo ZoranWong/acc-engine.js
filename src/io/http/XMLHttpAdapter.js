@@ -1,7 +1,6 @@
 import Adapter from './Adapter';
 import Response from "./Response";
 import {isString} from "underscore";
-import
 
 export default class XMLHttpAdapter extends Adapter {
     constructor (app) {
