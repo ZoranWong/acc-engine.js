@@ -1,6 +1,7 @@
 import Adapter from './Adapter';
 import Response from "./Response";
 import {isString} from "underscore";
+import
 
 export default class XMLHttpAdapter extends Adapter {
     constructor (app) {
@@ -43,7 +44,7 @@ export default class XMLHttpAdapter extends Adapter {
                 request.onerror = (errnoError) => {
                     resolve(new Response(false, request.status, request.responseText));
                 }
-                request.send(isString(this.data) ? this.data : JSON.stringify(this.data));
+                request.send(isString(this.data) || this.data instanceof FormData ? this.data : JSON.stringify(this.data));
             } catch (e) {
                 resolve(new Response(false, request.status, request.responseText));
             }
