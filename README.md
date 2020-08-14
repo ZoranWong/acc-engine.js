@@ -151,7 +151,26 @@ When you run the acc-engine.js, the framework will put some system's providers i
     app.command('login', userName, password);
 ```
 - ### command service
+Command service is the practice of command design pattern.We abstract the behavior surrounding data into interactive commands one by one.So the framework lets you can use the command-based interactive mode to initiate the behavior you want to complete. 
 
+```javascript
+    // You can define a login command
+    import {Command} from '@zoranwong/acc-engine.js';
+    import LoginRequest from 'LoginRequest';
+    class LoginCommand extends Command{
+        async handle(userName, password){
+            let res = await LoginRequest.send(userName, password);
+        }
+    } 
+
+    // register command to container
+    app.registerCommand('login', LoginCommand);
+    // you can create a command provider to manage and provider commands for application
+    let userName = 'xx';
+    let password = 'xxx';
+    // execute command to login
+    app.command('login', userName, password);
+```
 - ### model service
 
 - ### websocket service
