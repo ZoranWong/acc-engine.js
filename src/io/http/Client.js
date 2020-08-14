@@ -98,6 +98,7 @@ export default class Client {
                         break;
                 }
                 if(response) {
+                    responseClass =  responseClass ? responseClass : (request.responseClass ? request.responseClass : null );
                     return responseClass ? new responseClass(response.status, response.httpStatus, response.body, response.headers) : response;
                 }else{
                     return null;

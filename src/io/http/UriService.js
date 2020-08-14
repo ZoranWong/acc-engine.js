@@ -17,14 +17,12 @@ export default class UriService  {
                 k = index;
             }
             if (_.isArray(value) || _.isObject(value)) {
-                if (_.isArray(value) && value.length === 0) {
-                    // queryStr += `${k}[]=&`;
-                } else {
+                if (!(_.isArray(value) && value.length === 0)) {
                     queryStr += self.buildQuery(value, k);
                 }
             } else {
                 if (_.isBoolean(value)) {
-                    value = value ? 1 : 0
+                    value = value ? 1 : 0;
                 }
                 queryStr += `${k}=${value}&`;
             }
