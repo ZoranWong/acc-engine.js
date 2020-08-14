@@ -69,7 +69,9 @@ When you run the acc-engine.js, the framework will put some system's providers i
     + response
     + middleware
     
-```ecmascript 6
+    
+    
+```javascript
     // define login response
     import {Response} from "@zoranwong/acc-engine.js";
     class LoginResponse extends Response{
