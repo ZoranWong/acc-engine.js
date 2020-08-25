@@ -51,7 +51,7 @@ export default class Client {
     async post(url, data = {}) {
         let adapter = this.adapter;
         adapter.headers = this.headers;
-        return await this.adapter.post(url, data);
+        return await adapter.post(url, data);
     }
 
     async del(url, queries = {}) {
