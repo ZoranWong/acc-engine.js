@@ -4,17 +4,23 @@ const app = Application.getInstance();
 class SearchRequest extends Request {
     _method = 'GET';
     _uri = '/api/mp/activities';
-    _middleware = [async function (request, next) {
+    middlewares = [async function (request, next) {
         console.log('==================== 1 ================')
+        request.headers['Auth2'] = 'xxxxx';
         let response = await next(request);
         console.log('==================== 2 ================')
         return response;
     }, async function (request, next) {
         console.log('==================== 3 ================')
+        request.headers['Auth1'] = 'yes';
         let response = await next(request);
         console.log('==================== 4 ================')
         return response;
     }];
+
+    get middleware () {
+        return [...super.middleware, ...this.middlewares];
+    }
 }
 
 app.run();

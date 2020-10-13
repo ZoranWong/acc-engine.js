@@ -22,7 +22,6 @@ export default class XMLHttpAdapter extends Adapter {
                         let status = request.status;
                         let headerStr = request.getAllResponseHeaders();
                         let headers = headerStr.split('\n');
-                        console.log(headers);
                         headers = headers.map((header, index) => {
                             let [key, value] = header.split(':');
                             if(typeof key === 'undefined' || typeof value === 'undefined') {

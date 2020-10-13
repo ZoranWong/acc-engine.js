@@ -1,14 +1,17 @@
 import Application from "../../foundation/Application";
+import Response from "./Response";
+import UriParamParseMiddleware from "./UriParamParseMiddleware";
 
 export default class Request {
     _headers = {};
     _data = {};
     _uri = '';
     _method = '';
-    _middleware = [];
-    _responseClass = Response
+    _middleware = [
+        UriParamParseMiddleware
+    ];
+    _responseClass = Response;
     constructor () {
-        this.requestMiddleware();
     }
     get method() {
         return this._method;
@@ -39,12 +42,24 @@ export default class Request {
     }
 
     requestMiddleware() {
-        return this._middleware.concat([]);
+        return [];
     }
 
     static async send(...params) {
         let request = new this(...params);
         // noinspection JSUnresolvedFunction
         return  await Application.getInstance().http.send(request, request._responseClass);
+    }
+
+    rules () {
+        return {
+
+        };
+    }
+
+    messages () {
+        return {
+
+        };
     }
 }
