@@ -1,6 +1,7 @@
 import Application from "../../foundation/Application";
 import Response from "./Response";
 import UriParamParseMiddleware from "./UriParamParseMiddleware";
+import ValidateMiddleware from "./ValidateMiddleware";
 
 export default class Request {
     _headers = {};
@@ -8,6 +9,7 @@ export default class Request {
     _uri = '';
     _method = '';
     _middleware = [
+        ValidateMiddleware,
         UriParamParseMiddleware
     ];
     _responseClass = Response;
@@ -39,10 +41,6 @@ export default class Request {
 
     get middleware(){
         return this._middleware;
-    }
-
-    requestMiddleware() {
-        return [];
     }
 
     static async send(...params) {

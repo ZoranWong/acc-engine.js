@@ -21,6 +21,18 @@ class SearchRequest extends Request {
     get middleware () {
         return [...super.middleware, ...this.middlewares];
     }
+
+    rules () {
+        return {
+            name: ['required']
+        };
+    }
+
+    messages () {
+        return {
+            'name.required': 'name是必须的'
+        };
+    }
 }
 
 app.run();
