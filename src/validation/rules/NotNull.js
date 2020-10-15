@@ -1,19 +1,18 @@
 import Rule from "../Rule";
-import RequestValidationError from "../RequestValidationError";
 
-export default class Required extends Rule {
-    name = 'required';
-    constructor (name = 'required', options) {
+export default class NotNull extends Rule{
+    name = 'not_null';
+    constructor (name = 'not_null', options) {
         super(name, options);
     }
 
     validate (value, attribute, messages, rules, params) {
-        if (value !== undefined) {
+        if(value !== null) {
             this.failed = false;
             return true;
         }
         let rule = attribute + '.' + this.name;
-        let message = `attribute ${attribute} value is required`;
+        let message = `attribute ${attribute} value must be not null`;
         if(messages && messages[rule]) {
             message = messages[rule];
         }

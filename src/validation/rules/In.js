@@ -6,16 +6,16 @@ import RequestValidationRuleOptionError from "../RequestValidationRuleOptionErro
 export default class In extends Rule {
     name = 'in';
     constructor (name = 'in', options) {
-        super(name, null, options);
-        this.callback = this.handle;
+        super(name, options);
+        this.options = options.split(',');
     }
 
-    handle (value, attribute, messages, rules, params, ruleValidator) {
+    validate (value, attribute, messages, rules, params) {
         if (this.options) {
             /**@var Array options*/
             let options = this.options;
             if (indexOf(options, value) > -1) {
-                ruleValidator.failed = false;
+                this.failed = false;
                 return true;
             }
             let rule = attribute + '.' + this.name;
@@ -23,12 +23,12 @@ export default class In extends Rule {
             if(messages && messages[rule]) {
                 message = messages[rule];
             }
-            ruleValidator.failed = true;
-            ruleValidator.message = message;
+            this.failed = true;
+            this.message = message;
             return false;
         } else {
-            ruleValidator.message = `${attribute} validate rule ${this.name} has not parameters`;
-            ruleValidator.failed = true;
+            this.message = `${attribute} validate rule ${this.name} has not parameters`;
+            this.failed = true;
             return false;
         }
     }

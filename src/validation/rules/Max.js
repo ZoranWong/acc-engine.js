@@ -1,19 +1,20 @@
 import Rule from "../Rule";
-import RequestValidationError from "../RequestValidationError";
 
-export default class Required extends Rule {
-    name = 'required';
-    constructor (name = 'required', options) {
+export default class Max extends Rule{
+    name = 'max';
+    max = 0;
+    constructor (name = 'max', options) {
         super(name, options);
+        this.max = options;
     }
 
     validate (value, attribute, messages, rules, params) {
-        if (value !== undefined) {
+        if(this.max > value) {
             this.failed = false;
             return true;
         }
         let rule = attribute + '.' + this.name;
-        let message = `attribute ${attribute} value is required`;
+        let message = `attribute ${attribute} value must smaller than ${this.max}`;
         if(messages && messages[rule]) {
             message = messages[rule];
         }

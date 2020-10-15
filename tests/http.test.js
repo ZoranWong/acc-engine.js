@@ -24,7 +24,7 @@ class SearchRequest extends Request {
 
     rules () {
         return {
-            name: ['required']
+            name: 'required|string'
         };
     }
 
