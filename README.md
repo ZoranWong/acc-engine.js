@@ -114,8 +114,8 @@ When you run the acc-engine.js, the framework will put some system's providers i
             this._data['user_name'] = userName;
             this._data['password'] = password;
         }
-        requestMiddleware(){
-            return this._middleware.concat([PasswordHashMiddleware]);
+        get middleware(){
+            return [...super.middleware, PasswordHashMiddleware];
         }
     }
 
@@ -170,6 +170,44 @@ Command service is the practice of command design pattern.We abstract the behavi
     let password = 'xxx';
     // execute command to login
     app.command('login', userName, password);
+```
+
+- ### validate request
+You only need to implement the rules() and messages() method which in the abstract of Request, the application will auto to validate the data which you send to the server.
+```ecmascript 6
+    //define login request
+    import {Request} from "@zoranwong/acc-engine.js";
+    class LoginRequest extends Request {
+        _data  = {
+            user_name: null,
+            password: null
+        };
+        _method = 'POST';
+        _uri = '/login';
+        _responseClass = LoginResponse;
+        constructor(userName, password) {
+            super();
+            this._data['user_name'] = userName;
+            this._data['password'] = password;
+        }
+        get middleware(){
+            return [...super.middleware, PasswordHashMiddleware];
+        }
+        rules(){
+            return {
+                name: 'required|string|size:32',//['required', 'string', 'size:32']
+                password: ['required', 'string', 'size:1024']
+            };
+        }
+        
+        messages(){
+            return  {
+                'name.required': 'name is must attribute!',
+                'name.string': 'name`s value must be a string',
+                'name.size': 'name`s value length must smaller then 32'    
+            };
+        }
+    }
 ```
 - ### model service
 
