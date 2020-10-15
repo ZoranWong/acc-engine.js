@@ -195,16 +195,16 @@ You only need to implement the rules() and messages() method which in the abstra
         }
         rules(){
             return {
-                name: 'required|string|size:32',//['required', 'string', 'size:32']
+                user_name: 'required|string|size:32',//['required', 'string', 'size:32']
                 password: ['required', 'string', 'size:1024']
             };
         }
         
         messages(){
             return  {
-                'name.required': 'name is must attribute!',
-                'name.string': 'name`s value must be a string',
-                'name.size': 'name`s value length must smaller then 32'    
+                'user_name.required': 'user_name is must attribute!',
+                'user_name.string': 'user_name`s value must be a string',
+                'user_name.size': 'user_name`s value length must smaller then 32'    
             };
         }
     }
