@@ -174,7 +174,7 @@ Command service is the practice of command design pattern.We abstract the behavi
 
 - ### validate request
 You only need to implement the rules() and messages() method which in the abstract of Request, the application will auto to validate the data which you send to the server.
-```ecmascript 6
+```javascript
     //define login request
     import {Request} from "@zoranwong/acc-engine.js";
     class LoginRequest extends Request {
