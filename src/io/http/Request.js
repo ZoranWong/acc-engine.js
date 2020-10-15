@@ -13,7 +13,12 @@ export default class Request {
         UriParamParseMiddleware
     ];
     _responseClass = Response;
+    /**@property Application _app*/
+    _app;
+    _validator;
     constructor () {
+        this._app = Application.getInstance();
+        this._validator = this._app.get('validator');
     }
     get method() {
         return this._method;
@@ -45,8 +50,7 @@ export default class Request {
 
     static async send(...params) {
         let request = new this(...params);
-        // noinspection JSUnresolvedFunction
-        return  await Application.getInstance().http.send(request, request._responseClass);
+        return  await this._app.http.send(request, request._responseClass);
     }
 
     rules () {
@@ -59,5 +63,13 @@ export default class Request {
         return {
 
         };
+    }
+
+    passed() {
+        return this._validator.validate(this);
+    }
+
+    errors () {
+        return this._validator.errors;
     }
 }

@@ -4,6 +4,8 @@ export default class Rule {
     name = null;
     options = {};
     callback = () => {};
+    failed = false;
+    message = '';
     constructor (name, callback = null, options = null) {
         this.name = name;
         this.callback = callback;
@@ -12,10 +14,10 @@ export default class Rule {
 
     validate (value, options, attribute, messages, rules, params) {
         if(this.callback) {
-            if(this.callback(value, options, attribute, messages, rules, params)) {
+            if(this.callback(value, options, attribute, messages, rules, params, this)) {
                 return true;
             }else{
-                throw new RequestValidationError('');
+                return false;
             }
         }
     }

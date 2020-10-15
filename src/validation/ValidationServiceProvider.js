@@ -6,7 +6,7 @@ import Required from "./rules/Required";
 
 export default class ValidationServiceProvider extends ServiceProvider{
     register () {
-        this.app.singleton('validator', (app) => {
+        this.app.bind('validator', (app) => {
             return new Validator(app, {
                 in: In,
                 not_in: NotIn,

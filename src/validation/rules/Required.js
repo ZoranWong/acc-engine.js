@@ -11,6 +11,7 @@ export default class Required extends Rule {
     handle (value, attribute, messages, rules, params) {
         console.log(attribute, value);
         if (value) {
+            this.failed = false;
             return true;
         }
         let rule = attribute + '.' + this.name;
@@ -18,7 +19,9 @@ export default class Required extends Rule {
         if(messages && messages[rule]) {
             message = messages[rule];
         }
-
-        throw new RequestValidationError(message);
+        this.failed = true;
+        this.message = message;
+        return false;
+        // throw new RequestValidationError(message);
     }
 }

@@ -10,11 +10,12 @@ export default class In extends Rule {
         this.callback = this.handle;
     }
 
-    handle (value, attribute, messages, rules, params) {
+    handle (value, attribute, messages, rules, params, ruleValidator) {
         if (this.options) {
             /**@var Array options*/
             let options = this.options;
             if (indexOf(options, value) > -1) {
+                ruleValidator.failed = false;
                 return true;
             }
             let rule = attribute + '.' + this.name;
@@ -22,9 +23,13 @@ export default class In extends Rule {
             if(messages && messages[rule]) {
                 message = messages[rule];
             }
-            throw new RequestValidationError(message);
+            ruleValidator.failed = true;
+            ruleValidator.message = message;
+            return false;
         } else {
-            throw new RequestValidationRuleOptionError(`${attribute} validate rule ${this.name} has not parameters `);
+            ruleValidator.message = `${attribute} validate rule ${this.name} has not parameters`;
+            ruleValidator.failed = true;
+            return false;
         }
     }
 }

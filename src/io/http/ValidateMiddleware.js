@@ -1,19 +1,15 @@
+import RequestValidationError from "../../validation/RequestValidationError";
+
 export default class ValidateMiddleware {
-    /**
-    * @var Application _app
-    * */
-    _app;
-    constructor (app) {
-        this._app = app;
-    }
     /**
      * @param {Request} request
      * @param {Function} next
      * */
     async handle (request, next) {
-        /**@var Validator validator*/
-        let validator = this._app.get('validator');
-        validator.validate(request)
+        if(!request.passed()) {
+            // console.log(request.errors())
+            throw new RequestValidationError('request validate failed', request.errors());
+        }
         return  await next(request);
     }
 }
