@@ -224,8 +224,6 @@ You only need to implement the rules() and messages() method which in the abstra
 - ### use command
 
 ### Using acc-engine.js in  uniapp project
-### Using acc-engine.js in  mpvue project
-
 
 ### Using acc-engine.js in  react project
 

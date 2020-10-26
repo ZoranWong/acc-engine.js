@@ -14,8 +14,10 @@ export default class ModelServiceProvider extends ServiceProvider {
                 }
             });
         });
-        this.app.singleton('store', function (app) {
-            return new StoreManager(app);
+        this.app.singleton('$store', function (app) {
+            return {
+
+            };
         });
     }
 }
