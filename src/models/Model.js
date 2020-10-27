@@ -5,7 +5,8 @@ export default class Model {
     app = null;
     cacheKey = null;
     excludeKeys = ['cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
-    namespaced = null;
+    namespaced = true;
+    namespace = '';
     state = null;
     actions = null;
     mutations = null;
@@ -45,17 +46,17 @@ export default class Model {
         const state = {};
         /**@var Application app*/
         const app = this.app;
-        const namespaced = this.namespaced;
+        const namespace = this.namespace;
         forEach(this, (item, key) => {
             if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
                 Object.defineProperty(this, key, {
                     set (value) {
-                        const {dispatch} = app['$store'];
-                        dispatch(`${namespaced}/${key}`, value);
+                        const {dispatch} = app['$$store'];
+                        dispatch(`${namespace}/${key}`, value);
                     },
                     get () {
-                        const {getters} = app['$store'];
-                        return getters[`${namespaced}/${key}`]
+                        const {getters} = app['$$store'];
+                        return getters[`${namespace}/${key}`]
                     }
                 });
             }
