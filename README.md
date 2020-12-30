@@ -66,6 +66,18 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         static async send(...params) // static method to send http request, you can call this method through the request child class which you extend
         
+        constructor(HttpRequestOption options)
+        
+            ```javascript
+            class HttpRequestOption {
+                     headers = null;
+                     data = null;
+                     uri = null;
+                     method = HttpMethod.GET;
+                     middleware = null;
+                     responseClass = Response 
+              }
+            ```
     + response
     + middleware
     

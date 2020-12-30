@@ -2,12 +2,14 @@ import Application from "../../foundation/Application";
 import Response from "./Response";
 import UriParamParseMiddleware from "./UriParamParseMiddleware";
 import ValidateMiddleware from "./ValidateMiddleware";
+import HttpMethod from "./HttpMethod";
+import HttpRequestOption, {instanceOfHttpRequestOptions} from "./HttpRequestOption";
 
 export default class Request {
     _headers = {};
     _data = {};
     _uri = '';
-    _method = '';
+    _method = 'GET';
     _middleware = [
         ValidateMiddleware,
         UriParamParseMiddleware
@@ -16,56 +18,75 @@ export default class Request {
     /**@property Application _app*/
     _app;
     _validator;
-    constructor () {
+
+    /**
+     * @param HttpRequestOption options
+     * */
+    constructor (options = null) {
         this._app = Application.getInstance();
         this._validator = this._app.get('validator');
+        if(options && instanceOfHttpRequestOptions(options)) {
+            for (let key in options) {
+                if (options[key] && typeof this[`_${key}`] !== 'undefined') {
+                    this[`_${key}`] = options[key];
+                }
+            }
+        }
     }
-    get method() {
+
+    get method () {
         return this._method;
     }
 
-    async getHeaders() {
-        return  this._headers;
-    }
-
-    get responseClass() {
-        return this._responseClass;
-    }
-
-    get headers() {
+    async getHeaders () {
         return this._headers;
     }
 
-    get data() {
+    get responseClass () {
+        return this._responseClass;
+    }
+
+    get headers () {
+        return this._headers;
+    }
+
+    get data () {
         return this._data;
     }
 
-    get uri() {
+    get uri () {
         return this._uri;
     }
 
-    get middleware(){
+    get middleware () {
         return this._middleware;
     }
 
-    static async send(...params) {
+    /**
+    * @return {Application}
+    * */
+    get app () {
+        return this._app;
+    }
+
+    get httpClient() {
+        return this.app.http;
+    }
+
+    static async send (...params) {
         let request = new this(...params);
-        return  await this._app.http.send(request, request._responseClass);
+        return await request.httpClient.send(request, request._responseClass);
     }
 
     rules () {
-        return {
-
-        };
+        return {};
     }
 
     messages () {
-        return {
-
-        };
+        return {};
     }
 
-    passed() {
+    passed () {
         return this._validator.validate(this);
     }
 

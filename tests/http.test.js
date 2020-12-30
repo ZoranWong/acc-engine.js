@@ -1,4 +1,5 @@
 import Application, {Request} from "../src";
+import HttpRequestOption from "../src/io/http/HttpRequestOption";
 
 const app = Application.getInstance();
 class SearchRequest extends Request {
@@ -47,6 +48,6 @@ test('event test !', async function () {
     }catch (e) {
         console.log(e)
     }
-
+    console.log({middleware: [], method: 'GET', uri: '', headers: {}, data: {}, response: ''} instanceof HttpRequestOption)
     expect(true).toEqual(true);
 });
