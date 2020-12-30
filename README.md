@@ -78,8 +78,25 @@ When you run the acc-engine.js, the framework will put some system's providers i
                      responseClass = Response 
               }
             ```
+            
+        setHeader(name, value)
+        
+        getHeader(name)
+        
+        rules()
+        messages()
+        errors()
+        passed()
+        get data()
+        get headers()
+        get uri()
+        get middleware()
+        get method()
+        get responseClass()
+        
     + response
     + middleware
+
     
     
     
