@@ -25,7 +25,7 @@ export default class Request {
     constructor (options = null) {
         this._app = Application.getInstance();
         this._validator = this._app.get('validator');
-        if(options && instanceOfHttpRequestOptions(options)) {
+        if (options && instanceOfHttpRequestOptions(options)) {
             for (let key in options) {
                 if (options[key] && typeof this[`_${key}`] !== 'undefined') {
                     this[`_${key}`] = options[key];
@@ -63,13 +63,13 @@ export default class Request {
     }
 
     /**
-    * @return {Application}
-    * */
+     * @return {Application}
+     * */
     get app () {
         return this._app;
     }
 
-    get httpClient() {
+    get httpClient () {
         return this.app.http;
     }
 
@@ -92,5 +92,14 @@ export default class Request {
 
     errors () {
         return this._validator.errors;
+    }
+
+    setHeader (name, value) {
+        this._headers[name] = value;
+        return this;
+    }
+
+    getHeader (name) {
+        return this._headers[name];
     }
 }
