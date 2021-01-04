@@ -83,9 +83,9 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         getHeader(name)
         
-        rules() 
+        rules() define an array of validation rules for request data in return data.
         
-        messages()
+        messages() define an array of validation error messages for request data in return data.
         
         errors()
         
