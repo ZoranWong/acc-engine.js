@@ -237,6 +237,7 @@ Command service is the practice of command design pattern.We abstract the behavi
     | required | required | the value is required |
     | size | size:16 | the value`s size must smaller than 16 |
     | string | string | the value must be a valid string|
+    | not_empty | not_empty | the value mustn`t be null, empty string and undefined |
     
     
 ```javascript

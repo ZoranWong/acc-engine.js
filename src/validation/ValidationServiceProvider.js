@@ -13,6 +13,7 @@ import NumberRule from "./rules/Number";
 import StringRule from "./rules/String";
 import Size from "./rules/Size";
 import NotNull from "./rules/NotNull";
+import NotEmpty from "./rules/NotEmpty";
 
 export default class ValidationServiceProvider extends ServiceProvider {
     register () {
@@ -28,7 +29,8 @@ export default class ValidationServiceProvider extends ServiceProvider {
             integer: IntegerRule,
             string: StringRule,
             size: Size,
-            not_null: NotNull
+            not_null: NotNull,
+            not_empty: NotEmpty,
         });
         this.app.bind('validator', (app) => {
             return new Validator(app, this.app.get('validateRules'));
