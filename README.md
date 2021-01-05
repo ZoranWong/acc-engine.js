@@ -228,6 +228,15 @@ Command service is the practice of command design pattern.We abstract the behavi
     | email       | email        | the value must be a valid email address |
     | float       | float        | the value must be a valid float |
     | in          | in:2,5,7,9   | the value must be in 2,5,7,9 |
+    | integer     | integer      | the value must be an integer |
+    | max         | max:1000     | the value must smaller than 1000 (a < 1000) |
+    | min         |min:10        | the value must be greater than 10 (a >= 10) |
+    | not_in      | not_in:1,7,8,10 | the value must be not in 1,7,8,10 |
+    | not_null    | not_null     | the value mustn`t be null |
+    | number      | number       | the value must be a number |
+    | required | required | the value is required |
+    | size | size:16 | the value`s size must smaller than 16 |
+    | string | string | the value must be a valid string|
     
     
 ```javascript
