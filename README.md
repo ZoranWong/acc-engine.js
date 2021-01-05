@@ -77,21 +77,27 @@ When you run the acc-engine.js, the framework will put some system's providers i
                      middleware = null;
                      responseClass = Response 
               }
+              
+              //You can send data using the object of HttpRequestOption's struct
+              
+              Request.send(new HttpRequestOption({headers, data, uri, method, middleware, responseClass}));
+              
+              Request.send({headers, data, uri, method, middleware, responseClass});
             ```
             
         setHeader(name, value)
         
         getHeader(name)
         
-        rules() define an array of validation rules for request data in return data.
+        rules() define an array of validation rules for request data in the return data.
         
-        messages() define an array of validation error messages for request data in return data.
+        messages() define an array of validation error messages for request data in the return data.
         
-        errors()
+        errors() return the validation errors
         
-        passed()
+        passed() determine whether the verification is passed
         
-        get data()
+        get data() 
         
         get headers()
         
@@ -211,7 +217,19 @@ Command service is the practice of command design pattern.We abstract the behavi
 ```
 
 - ### validate request
-You only need to implement the rules() and messages() method which in the abstract of Request, the application will auto to validate the data which you send to the server.
+
+    You only need to implement the rules() and messages() method which in the abstract of Request, the application will auto to validate the data which you send to the server.
+
+    In our system it provides a set of rules for programming.
+    
+    | Key         | Syntax      | description |
+    | ----------- | ----------- | ----------- |
+    | between     | between:10,100 | 10 <= a < 100 |
+    | email       | email        | the value must be a valid email address |
+    | float       | float        | the value must be a valid float |
+    | in          | in:2,5,7,9   | the value must be in 2,5,7,9 |
+    
+    
 ```javascript
     //define login request
     import {Request} from "@zoranwong/acc-engine.js";
@@ -246,7 +264,11 @@ You only need to implement the rules() and messages() method which in the abstra
             };
         }
     }
+
+    LoginRequest.send('Mike Jackson', 'xxxxxxxx')
 ```
+
+    
 - ### model service
 
 - ### websocket service
