@@ -18,6 +18,6 @@ export default class HttpServiceProvider extends ServiceProvider {
         });
         let repository = Application.getInstance().config;
         repository['http'] = config;
-        console.log(this.app.http, '--------------- http --------------');
+        // console.log(this.app.http, '--------------- http --------------');
     }
 }

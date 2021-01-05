@@ -13,7 +13,6 @@ export default class StringRule extends Rule{
             return true;
         }
         let rule = attribute + '.' + this.name;
-        console.log(rule)
         let message = `attribute ${attribute} value must be a string`;
         if(messages && messages[rule]) {
             message = messages[rule];

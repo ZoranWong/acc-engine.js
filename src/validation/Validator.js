@@ -18,7 +18,7 @@ export default class Validator {
             let value = params[attribute];
             let attributeValidateRules = this.parseRule(rule);
             each(attributeValidateRules, (ruleValidator, rule) => {
-                console.log(attribute, rule)
+                // console.log(attribute, rule)
                 if(!ruleValidator.validate(value, attribute, messages, rules, params)) {
                     passed = false;
                     this.errors[attribute + '.' + rule] = ruleValidator.message;

@@ -10,7 +10,7 @@ export default class WorkerManager {
 
     thread(name = null, thread = null) {
         if(typeof eval !== 'undefined') {
-            const  workerPool =  require('workerpool')['default'];
+            const  workerPool =  require('workerpool');
             if (!this.#workers[name]) {
                 let pool = null;
                 if (thread) {

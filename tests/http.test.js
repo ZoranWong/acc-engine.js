@@ -46,8 +46,8 @@ test('event test !', async function () {
         // console.log(response);
         console.log(response, response.body, response.headers, response.httpStatus, response.status, '==================== response =================')
     }catch (e) {
-        console.log(e)
+        console.log(e.errors)
     }
-    console.log({middleware: [], method: 'GET', uri: '', headers: {}, data: {}, response: ''} instanceof HttpRequestOption)
+    // console.log({middleware: [], method: 'GET', uri: '', headers: {}, data: {}, response: ''} instanceof HttpRequestOption)
     expect(true).toEqual(true);
 });
