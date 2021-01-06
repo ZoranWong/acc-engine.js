@@ -3,8 +3,8 @@ import {extend, forEach, isFunction} from "underscore";
 export default class Model {
     cacheAttributes = [];
     app = null;
-    cacheKey = null;
-    excludeKeys = ['cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
+    cacheKey = 'model_';
+    excludeKeys = ['excludeKeys', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
     namespaced = true;
     namespace = '';
     state = null;
@@ -12,19 +12,20 @@ export default class Model {
     mutations = null;
     getters = null;
 
-    constructor (app) {
+    constructor (app, namespace) {
+        this.namespace = namespace;
         this.app = app;
-        this.resetModelFromCache();
-        this.state = this._state();
-        this.actions = this._actions();
-        this.mutations = this._mutations();
-        this.getters = this._getters();
-        this._defineProperty();
+    }
+
+    static instance (app, namespace) {
+        let instance = new this(app, namespace);
+        instance.initial();
+        return instance;
     }
 
     resetModelFromCache () {
-        if (this.cacheKey) {
-            let cachedData = this.app['cache'].get(this.cacheKey);
+        if (this.namespace) {
+            let cachedData = this.app['cache'].get(this.cacheKey + this.namespace);
             if (cachedData) {
                 forEach(this.cacheAttributes, (key) => {
                     if (cachedData[key]) {
@@ -33,6 +34,16 @@ export default class Model {
                 });
             }
         }
+    }
+
+    initial() {
+        this.resetModelFromCache();
+        this._defineProperty();
+        this.state = this._state();
+        this.actions = this._actions();
+        this.mutations = this._mutations();
+        this.getters = this._getters();
+        return this;
     }
 
     set (key, value) {
