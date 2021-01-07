@@ -47,7 +47,6 @@ export default class Model {
         this.actions = this._actions();
         this.mutations = this._mutations();
         this.getters = this._getters();
-        this._defineProperty();
         return this;
     }
 
@@ -58,7 +57,7 @@ export default class Model {
         return value;
     }
 
-    _defineProperty () {
+    proxyForStore () {
         /**@var Application app*/
         const app = this.app;
         const namespace = this.namespace;
