@@ -68,10 +68,13 @@ export default class Model {
                     Object.defineProperty(this, key, {
                         set (value) {
 
-                            if(dispatch)
-                                dispatch(`${namespace}/${key}`, value);
-                            else
+                            if(dispatch){
+                                let payload = {};
+                                payload[key] = value;
+                                dispatch(`${namespace}/${key}`, payload);
+                            } else {
                                 item = value;
+                            }
                         },
                         get () {
                             return getters ? getters[`${namespace}/${key}`] : item;
