@@ -5,6 +5,7 @@ export default class Model {
     cacheAttributes = [];
     app = null;
     cacheKey = 'model_';
+    needCache = false;
     excludeKeys = ['excludeKeys', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
     namespaced = true;
     namespace = '';
@@ -24,7 +25,7 @@ export default class Model {
     }
 
     resetModelFromCache () {
-        if (this.namespace && this.app['cache']) {
+        if (this.needCache && this.namespace && this.app['cache']) {
             let cachedData = this.app['cache'].get(this.cacheKey + this.namespace);
             if (cachedData) {
                 forEach(this.cacheAttributes, (key) => {
@@ -40,8 +41,8 @@ export default class Model {
         if(!options['namespace']) {
             options['namespace'] = caseKeyName(this.constructor.name);
         }
-        this.setModel(options);
         this.resetModelFromCache();
+        this.setModel(options);
         this.state = this._state();
         this.actions = this._actions();
         this.mutations = this._mutations();
