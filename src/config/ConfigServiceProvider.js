@@ -16,5 +16,10 @@ export default class ConfigServiceProvider extends ServiceProvider {
                 }
             });
         });
+
+        let providers = app['bootstrapProviders'];
+        for (let provider of providers) {
+            this.app.registerProvider(provider);
+        }
     }
 }

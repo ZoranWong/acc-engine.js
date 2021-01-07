@@ -42,7 +42,7 @@ app.config.http = {
 };
 test('event test !', async function () {
     try{
-        let response = await app.http.send(new SearchRequest());
+        let response = await SearchRequest.send();
         // console.log(response);
         console.log(response, response.body, response.headers, response.httpStatus, response.status, '==================== response =================')
     }catch (e) {

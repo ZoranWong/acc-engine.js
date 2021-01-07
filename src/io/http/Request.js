@@ -74,6 +74,7 @@ export default class Request {
     }
 
     static async send (...params) {
+        console.log(this);
         let request = new this(...params);
         return await request.httpClient.send(request, request._responseClass);
     }

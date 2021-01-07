@@ -283,7 +283,22 @@ Command service is the practice of command design pattern.We abstract the behavi
 ![SearchRequest](/assets/code_02.jpg "SearchRequest")
     
 - ### model service
-
+    - setModel(data) this method can reset the property of model which you defined,and it can case snake's key to camel's key which you defined in model.
+   
+    - cacheAttributes which attributes will be cached in.
+    
+    ```javascript
+        class User extends Model {
+            username = null;
+            headImage = null;
+            constructor(options) {
+                super(options);
+                this.initial(options);//initial the model
+            }
+        }
+        // User.instance(app, 'model');
+        let user = new User({username: 'Jack',head_image: '--------------'});
+    ```
 - ### websocket service
 
 - ### worker service
