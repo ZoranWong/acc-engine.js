@@ -10,19 +10,21 @@ export default class HttpRequestOption {
     middleware = null;
     responseClass = Response
 
-    constructor (options) {
-        for (let key in options) {
-            this[key] = options[key];
+    constructor (options = null) {
+        if(options) {
+            for (let key in options) {
+                this[key] = options[key];
+            }
         }
     }
 }
-
+const requestOption = new HttpRequestOption();
 export function instanceOfHttpRequestOptions (obj) {
     if(!obj || !isObject(obj)) {
         return false;
     }
     for (let key in obj) {
-        if (typeof HttpRequestOption.prototype[key] !== 'undefined') {
+        if (typeof requestOption[key] !== 'undefined') {
             return true;
         }
     }

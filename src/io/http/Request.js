@@ -25,7 +25,7 @@ export default class Request {
     constructor (options = null) {
         this._app = Application.getInstance();
         this._validator = this._app.get('validator');
-        if (options && instanceOfHttpRequestOptions(options)) {
+        if (arguments.length === 0 && options && instanceOfHttpRequestOptions(options)) {
             for (let key in options) {
                 if (options[key] && typeof this[`_${key}`] !== 'undefined') {
                     this[`_${key}`] = options[key];
@@ -74,7 +74,6 @@ export default class Request {
     }
 
     static async send (...params) {
-        console.log(this);
         let request = new this(...params);
         return await request.httpClient.send(request, request._responseClass);
     }
