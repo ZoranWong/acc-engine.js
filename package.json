@@ -1,10 +1,87 @@
 {
-  "name": "acc-engine.js",
-  "version": "1.0.0",
-  "private": true,
+  "name": "@zoranwong/acc-engine.js",
+  "version": "0.0.48",
+  "description": "A javascript framework to accelerate your applicatin developement",
+  "main": "lib/index.js",
   "scripts": {
-    "server": "gulp server",
-    "build": "gulp build"
+    "test": "jest --runInBand --detectOpenHandles ./tests/",
+    "watch": "webpack --mode development --watch",
+    "start": "webpack --mode development",
+    "deploy": "webpack --mode production",
+    "prepublish": "gulp && webpack --mode production"
   },
-  "dependencies": {}
+  "keywords": [
+    "Javascript",
+    "js",
+    "framework",
+    "container",
+    "accelerate",
+    "node.js"
+  ],
+  "author": "Zoran Wong",
+  "license": "MIT",
+  "dependencies": {
+    "@zoranwong/pure-container": "0.0.30",
+    "md5": "^2.3.0",
+    "query-string": "^6.13.8",
+    "underscore": "^1.12.0",
+    "workerpool": "^6.0.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-private-methods": "^7.12.1",
+    "@babel/plugin-transform-arrow-functions": "^7.12.1",
+    "@babel/plugin-transform-async-to-generator": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/runtime": "^7.12.5",
+    "babel-eslint": "v11.0.0-beta.2",
+    "babel-jest": "^25.4.0",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "browser-env": "^3.3.0",
+    "del": "^5.1.0",
+    "eslint": "^7.17.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-private-props": "^0.3.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "jest": "^25.4.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "worker-loader": "^2.0.0"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "experimentalObjectRestSpread": true
+    },
+    "plugins": [
+      "private-props"
+    ],
+    "rules": {
+      "private-props/no-unused-or-undeclared": [
+        2,
+        {
+          "privateMatchers": [
+            "^_",
+            "^handle[A-Z]"
+          ]
+        }
+      ]
+    }
+  }
 }

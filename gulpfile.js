@@ -1,9 +1,21 @@
-var express = require('express');
-var path = require('path');
+const gulp = require('gulp');
+const fs = require('fs');
+const clean = require('del');
+const babel = require('gulp-babel');
 
-
-var app = express();
-
-
-
-module.exports = app;
+// 发布打包
+gulp.task('default', gulp.series(() => {
+    return clean(['./lib']);
+}, () => {
+    return gulp.src('./src/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('./lib'));
+}, () => {
+    return gulp.src('./src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('./lib'));
+}, () => {
+    return gulp.src('./src/**/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('./lib'));
+}));
