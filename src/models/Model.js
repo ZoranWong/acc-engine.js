@@ -2,11 +2,11 @@ import {extend, forEach, isFunction} from "underscore";
 import Application, {caseKeyName} from "..";
 
 export default class Model {
-    cacheAttributes = [];
+    cacheAttributes = ['*'];
     app = null;
     cacheKey = 'model_';
     needCache = false;
-    excludeKeys = ['excludeKeys', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
+    excludeKeys = ['excludeKeys', 'needCache', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
     namespaced = true;
     namespace = '';
     state = null;
@@ -28,17 +28,41 @@ export default class Model {
         if (this.needCache && this.namespace && this.app['cache']) {
             let cachedData = this.app['cache'].get(this.cacheKey + this.namespace);
             if (cachedData) {
-                forEach(this.cacheAttributes, (key) => {
-                    if (cachedData[key]) {
-                        this.set(key, cachedData[key]);
-                    }
-                });
+                if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
+                    forEach(cachedData, (item, key) => {
+                        this.set(key, item);
+                    });
+                } else {
+                    forEach(this.cacheAttributes, (key) => {
+                        if (cachedData[key]) {
+                            this.set(key, cachedData[key]);
+                        }
+                    });
+                }
             }
         }
     }
 
+    setCache () {
+        if (this.needCache && this.namespace && this.app['cache']) {
+            let cacheData = {};
+            if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
+                forEach(this, (item, key) => {
+                    if(this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])){
+                        cacheData[key] = item;
+                    }
+                })
+            } else {
+                forEach(this.cacheAttributes, (key) => {
+                    cacheData[key] = this[key];
+                });
+            }
+            this.app['cache'].set(this.cacheKey + this.namespace, cacheData);
+        }
+    }
+
     initial (options) {
-        if(!options['namespace']) {
+        if (!options['namespace']) {
             options['namespace'] = caseKeyName(this.constructor.name);
         }
         this.resetModelFromCache();
@@ -62,13 +86,13 @@ export default class Model {
         const app = this.app;
         const namespace = this.namespace;
         const {dispatch, getters} = app['$$store'];
-        if(dispatch && getters) {
+        if (dispatch && getters) {
             forEach(this, (item, key) => {
                 if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
                     Object.defineProperty(this, key, {
                         set (value) {
 
-                            if(dispatch){
+                            if (dispatch) {
                                 let payload = {};
                                 payload[key] = value;
                                 dispatch(`${namespace}/${key}`, payload);
@@ -119,7 +143,10 @@ export default class Model {
         const mutations = {};
         forEach(this, (item, key) => {
             if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
-                mutations[key] = (state, payload) => state[key] = payload[key];
+                mutations[key] = (state, payload) => {
+                    state[key] = payload[key];
+                    this.setCache();
+                }
             }
         });
         return mutations;
