@@ -4,6 +4,7 @@ import UriParamParseMiddleware from "./UriParamParseMiddleware";
 import ValidateMiddleware from "./ValidateMiddleware";
 import HttpMethod from "./HttpMethod";
 import HttpRequestOption, {instanceOfHttpRequestOptions} from "./HttpRequestOption";
+import {isArray} from 'underscore';
 
 export default class Request {
     _headers = {};
@@ -26,10 +27,14 @@ export default class Request {
     constructor (options = null) {
         this._app = Application.getInstance();
         this._validator = this._app.get('validator');
+        this._name = this.constructor.name;
         if (arguments.length === 1 && options && instanceOfHttpRequestOptions(options)) {
             for (let key in options) {
                 if (options[key] && typeof this[`_${key}`] !== 'undefined') {
-                    this[`_${key}`] = options[key];
+                    if (key !== 'middleware')
+                        this[`_${key}`] = options[key];
+                    else
+                        this._middleware.concat(isArray(options['middleware']) ? options['middleware'] : [options['middleware']]);
                 }
             }
         }
@@ -62,8 +67,8 @@ export default class Request {
     get middleware () {
         return this._middleware;
     }
-    
-    get name() {
+
+    get name () {
         return this._name;
     }
 
