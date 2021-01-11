@@ -50,19 +50,26 @@ export default class Application extends Container {
     #providerRegistered;
     #registerProviders = [];
     status;
+    beforeCreated = function () {};
+    created = function () {};
+    beforeDestroy = function () {};
+    destroied = function () {};
     #lifeCycles = {
         beforeCreated: () => {
             Application.getInstance().registerServiceProviders();
+            Application.getInstance().beforeCreated();
         },
         created: () => {
             Application.getInstance().boot();
             Application.getInstance().status = RUNNING;
+            Application.getInstance().created();
         },
         beforeDestroy: () => {
-
+            Application.getInstance().beforeDestroy();
         },
         onDestroy: () => {
             Application.getInstance().status = DESTROYED;
+            Application.getInstance().destroied();
         }
     }
 
