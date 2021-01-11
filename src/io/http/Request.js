@@ -9,6 +9,7 @@ export default class Request {
     _headers = {};
     _data = {};
     _uri = '';
+    _name = null;
     _method = 'GET';
     _middleware = [
         ValidateMiddleware,
@@ -60,6 +61,10 @@ export default class Request {
 
     get middleware () {
         return this._middleware;
+    }
+    
+    get name() {
+        return this._name;
     }
 
     /**
