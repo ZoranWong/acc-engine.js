@@ -1,6 +1,4 @@
 import ServiceProvider from '../constracts/ServiceProvider';
-import Application from "../foundation/Application";
-import StoreManager from "./StoreManager";
 export default class ModelServiceProvider extends ServiceProvider {
     register() {
         this.app.singleton('models', function () {
@@ -14,8 +12,10 @@ export default class ModelServiceProvider extends ServiceProvider {
                 }
             });
         });
-        this.app.singleton('store', function (app) {
-            return new StoreManager(app);
+        this.app.singleton('$$store', function (app) {
+            return {
+
+            };
         });
     }
 }

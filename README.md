@@ -66,8 +66,52 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         static async send(...params) // static method to send http request, you can call this method through the request child class which you extend
         
+        constructor(HttpRequestOption options)
+        
+            ```javascript
+            class HttpRequestOption {
+                     headers = null;
+                     data = null;
+                     uri = null;
+                     method = HttpMethod.GET;
+                     middleware = null;
+                     responseClass = Response 
+              }
+              
+              //You can send data using the object of HttpRequestOption's struct
+              
+              Request.send(new HttpRequestOption({headers, data, uri, method, middleware, responseClass}));
+              
+              Request.send({headers, data, uri, method, middleware, responseClass});
+            ```
+            
+        setHeader(name, value)
+        
+        getHeader(name)
+        
+        rules() define an array of validation rules for request data in the return data.
+        
+        messages() define an array of validation error messages for request data in the return data.
+        
+        errors() return the validation errors
+        
+        passed() determine whether the verification is passed
+        
+        get data() 
+        
+        get headers()
+        
+        get uri()
+        
+        get middleware()
+        
+        get method()
+        
+        get responseClass()
+        
     + response
     + middleware
+
     
     
     
@@ -114,8 +158,8 @@ When you run the acc-engine.js, the framework will put some system's providers i
             this._data['user_name'] = userName;
             this._data['password'] = password;
         }
-        requestMiddleware(){
-            return this._middleware.concat([PasswordHashMiddleware]);
+        get middleware(){
+            return [...super.middleware, PasswordHashMiddleware];
         }
     }
 
@@ -171,8 +215,90 @@ Command service is the practice of command design pattern.We abstract the behavi
     // execute command to login
     app.command('login', userName, password);
 ```
-- ### model service
 
+- ### validate request
+
+    You only need to implement the rules() and messages() method which in the abstract of Request, the application will auto to validate the data which you send to the server.
+
+    In our system it provides a set of rules for programming.
+    
+    | Key         | Syntax      | description |
+    | ----------- | ----------- | ----------- |
+    | between     | between:10,100 | 10 <= a < 100 |
+    | email       | email        | the value must be a valid email address |
+    | float       | float        | the value must be a valid float |
+    | in          | in:2,5,7,9   | the value must be in 2,5,7,9 |
+    | integer     | integer      | the value must be an integer |
+    | max         | max:1000     | the value must smaller than 1000 (a < 1000) |
+    | min         |min:10        | the value must be greater than 10 (a >= 10) |
+    | not_in      | not_in:1,7,8,10 | the value must be not in 1,7,8,10 |
+    | not_null    | not_null     | the value mustn`t be null |
+    | number      | number       | the value must be a number |
+    | required | required | the value is required |
+    | size | size:16 | the value`s size must smaller than 16 |
+    | string | string | the value must be a valid string|
+    | not_empty | not_empty | the value mustn`t be null, empty string and undefined |
+    
+    
+```javascript
+    //define login request
+    import {Request} from "@zoranwong/acc-engine.js";
+    class LoginRequest extends Request {
+        _data  = {
+            user_name: null,
+            password: null
+        };
+        _method = 'POST';
+        _uri = '/login';
+        _responseClass = LoginResponse;
+        constructor(userName, password) {
+            super();
+            this._data['user_name'] = userName;
+            this._data['password'] = password;
+        }
+        get middleware(){
+            return [...super.middleware, PasswordHashMiddleware];
+        }
+        rules(){
+            return {
+                user_name: 'required|string|size:32',//['required', 'string', 'size:32']
+                password: ['required', 'string', 'size:1024']
+            };
+        }
+        
+        messages(){
+            return  {
+                'user_name.required': 'user_name is must attribute!',
+                'user_name.string': 'user_name`s value must be a string',
+                'user_name.size': 'user_name`s value length must smaller then 32'    
+            };
+        }
+    }
+
+    LoginRequest.send('Mike Jackson', 'xxxxxxxx')
+```
+
+![SearchRequest](/assets/code_00.jpg "SearchRequest")
+![SearchRequest](/assets/code_01.jpg "SearchRequest")
+![SearchRequest](/assets/code_02.jpg "SearchRequest")
+    
+- ### model service
+    - setModel(data) this method can reset the property of model which you defined,and it can case snake's key to camel's key which you defined in model.
+   
+    - cacheAttributes which attributes will be cached in.
+    
+    ```javascript
+        class User extends Model {
+            username = null;
+            headImage = null;
+            constructor(options) {
+                super(options);
+                this.initial(options);//initial the model
+            }
+        }
+        // User.instance(app, 'model');
+        let user = new User({username: 'Jack',head_image: '--------------'});
+    ```
 - ### websocket service
 
 - ### worker service
@@ -186,8 +312,6 @@ Command service is the practice of command design pattern.We abstract the behavi
 - ### use command
 
 ### Using acc-engine.js in  uniapp project
-### Using acc-engine.js in  mpvue project
-
 
 ### Using acc-engine.js in  react project
 

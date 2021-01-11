@@ -1,5 +1,4 @@
 import PoolInterface from "./PoolInterface";
-import {isString} from "underscore";
 
 export default class Thread {
     #threadId = null;

@@ -1,5 +1,7 @@
 export default class RequestValidationError extends Error{
-    constructor (message) {
+    errors = {};
+    constructor (message, errors) {
         super(message);
+        this.errors = errors;
     }
 }

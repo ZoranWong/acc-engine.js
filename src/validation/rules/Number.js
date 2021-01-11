@@ -1,19 +1,18 @@
 import Rule from "../Rule";
-import RequestValidationError from "../RequestValidationError";
 
-export default class Required extends Rule {
-    name = 'required';
-    constructor (name = 'required', options) {
+export default class NumberRule extends Rule{
+    numberRegex = /^(-|\+){0,1}\d+(\.\d+)*$/;
+    constructor (name = 'number', options) {
         super(name, options);
     }
 
     validate (value, attribute, messages, rules, params) {
-        if (value !== undefined) {
+        if(this.numberRegex.test(value)) {
             this.failed = false;
             return true;
         }
         let rule = attribute + '.' + this.name;
-        let message = `attribute ${attribute} value is required`;
+        let message = `attribute ${attribute} value must be a  number`;
         if(messages && messages[rule]) {
             message = messages[rule];
         }

@@ -1,19 +1,19 @@
 import Rule from "../Rule";
-import RequestValidationError from "../RequestValidationError";
+import {isString} from "underscore";
 
-export default class Required extends Rule {
-    name = 'required';
-    constructor (name = 'required', options) {
+export default class StringRule extends Rule{
+    name = 'string';
+    constructor (name = 'string', options) {
         super(name, options);
     }
 
     validate (value, attribute, messages, rules, params) {
-        if (value !== undefined) {
+        if(isString(value)) {
             this.failed = false;
             return true;
         }
         let rule = attribute + '.' + this.name;
-        let message = `attribute ${attribute} value is required`;
+        let message = `attribute ${attribute} value must be a string`;
         if(messages && messages[rule]) {
             message = messages[rule];
         }
