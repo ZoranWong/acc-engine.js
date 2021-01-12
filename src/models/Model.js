@@ -29,7 +29,7 @@ export default class Model {
             let cachedData = this.app['cache'].get(this.cacheKey + this.namespace);
             let reset = (cachedData) => {
                 if (cachedData) {
-                    if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
+                    if (this.cacheAttributes.length === 1 && this.cacheAttributes[0] === '*') {
                         forEach(cachedData, (item, key) => {
                             this.set(key, item);
                         });
