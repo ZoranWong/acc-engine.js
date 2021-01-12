@@ -27,18 +27,27 @@ export default class Model {
     resetModelFromCache () {
         if (this.needCache && this.namespace && this.app['cache']) {
             let cachedData = this.app['cache'].get(this.cacheKey + this.namespace);
-            if (cachedData) {
-                if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
-                    forEach(cachedData, (item, key) => {
-                        this.set(key, item);
-                    });
-                } else {
-                    forEach(this.cacheAttributes, (key) => {
-                        if (cachedData[key]) {
-                            this.set(key, cachedData[key]);
-                        }
-                    });
+            let reset = (cachedData) => {
+                if (cachedData) {
+                    if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
+                        forEach(cachedData, (item, key) => {
+                            this.set(key, item);
+                        });
+                    } else {
+                        forEach(this.cacheAttributes, (key) => {
+                            if (cachedData[key]) {
+                                this.set(key, cachedData[key]);
+                            }
+                        });
+                    }
                 }
+            }
+            if (cachedData instanceof Promise) {
+                cachedData.then((cachedData) => {
+                    reset(cachedData);
+                })
+            } else {
+                reset(cachedData);
             }
         }
     }
@@ -48,7 +57,7 @@ export default class Model {
             let cacheData = {};
             if (this.cacheAttributes.length === 1 && this.cacheAttributes[0] === '*') {
                 forEach(this, (item, key) => {
-                    if(this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])){
+                    if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
                         cacheData[key] = item;
                     }
                 })
