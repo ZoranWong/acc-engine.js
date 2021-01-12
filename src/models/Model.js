@@ -46,7 +46,7 @@ export default class Model {
     setCache () {
         if (this.needCache && this.namespace && this.app['cache']) {
             let cacheData = {};
-            if (this.cacheAttributes.length === 0 && this.cacheAttributes[0] === '*') {
+            if (this.cacheAttributes.length === 1 && this.cacheAttributes[0] === '*') {
                 forEach(this, (item, key) => {
                     if(this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])){
                         cacheData[key] = item;
@@ -65,6 +65,7 @@ export default class Model {
         if (!options['namespace']) {
             options['namespace'] = caseKeyName(this.constructor.name);
         }
+        this.namespace = options['namespace'];
         this.resetModelFromCache();
         this.setModel(options);
         this.state = this._state();
