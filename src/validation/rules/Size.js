@@ -1,4 +1,5 @@
 import Rule from "../Rule";
+import {isString} from "underscore";
 
 export default class Size extends Rule{
     name = 'size';
@@ -9,7 +10,7 @@ export default class Size extends Rule{
     }
 
     validate (value, attribute, messages, rules, params) {
-        if(this.size > value.length) {
+        if(value && isString(value) && this.size > value.length) {
             this.failed = false;
             return true;
         }
