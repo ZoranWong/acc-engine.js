@@ -1,5 +1,6 @@
 export default {
     gateway: '',
     headers: {},
-    middleware: []
+    middleware: [],
+    responseClass: null
 }
