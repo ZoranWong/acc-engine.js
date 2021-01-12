@@ -16,7 +16,7 @@ export default class Request {
         ValidateMiddleware,
         UriParamParseMiddleware
     ];
-    _responseClass = Response;
+    _responseClass = null;
     /**@property Application _app*/
     _app;
     _validator;

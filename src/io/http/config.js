@@ -1,6 +1,7 @@
+import Response from './Response';
 export default {
     gateway: '',
     headers: {},
     middleware: [],
-    responseClass: null
+    responseClass: Response
 }
