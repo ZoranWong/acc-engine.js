@@ -26,15 +26,24 @@ export default class Repository {
     }
 
     extend (des, sources) {
+        let count = 0;
         for (let k in sources) {
+            count += 1;
             if (isObject(sources[k]) && !isArray(sources[k])) {
                 if (!des[k]) {
                     des[k] = sources[k];
                 }
-                this.extend(des[k], sources[k]);
+                if(this.extend(des[k], sources[k]) < 0) {
+                    des[k] = sources[k];
+                }
             } else {
                 des[k] = sources[k];
             }
+        }
+        if(count === 0){
+            return -1;
+        }else{
+            return 1;
         }
     }
 
