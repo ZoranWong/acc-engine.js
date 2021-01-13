@@ -21,7 +21,7 @@
   "author": "Zoran Wong",
   "license": "MIT",
   "dependencies": {
-    "@zoranwong/pure-container": "0.0.30",
+    "@zoranwong/pure-container": "0.0.31",
     "md5": "^2.3.0",
     "query-string": "^6.13.8",
     "underscore": "^1.12.0",
