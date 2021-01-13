@@ -3,10 +3,11 @@ import Application, {caseKeyName} from "..";
 
 export default class Model {
     cacheAttributes = ['*'];
+    savingCache = false;
     app = null;
     cacheKey = 'model_';
     needCache = false;
-    excludeKeys = ['excludeKeys', 'needCache', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
+    excludeKeys = ['excludeKeys', 'savingCache', 'needCache', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
     namespaced = true;
     namespace = '';
     state = null;
@@ -67,6 +68,7 @@ export default class Model {
                 });
             }
             this.app['cache'].set(this.cacheKey + this.namespace, cacheData);
+            console.log('---------- model set cache -----------', cacheData);
         }
     }
 
@@ -155,7 +157,13 @@ export default class Model {
             if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
                 mutations[key] = (state, payload) => {
                     state[key] = payload[key];
-                    this.setCache();
+                    if (!this.savingCache) {
+                        this.savingCache = true;
+                        setTimeout(() => {
+                            this.setCache();
+                            this.savingCache = false;
+                        }, 200);
+                    }
                 }
             }
         });
