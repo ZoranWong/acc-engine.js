@@ -4,7 +4,7 @@ import WebsocketAdapter from "./WebsocketAdapter";
 
 export default class SocketServiceProvider extends ServiceProvider{
     register() {
-        this.app.singleton('socket', function (app) {
+        this.app.singleton('socket',  (app) => {
             return new WebsocketAdapter(app);
         });
 

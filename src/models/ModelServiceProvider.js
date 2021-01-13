@@ -1,7 +1,7 @@
 import ServiceProvider from '../constracts/ServiceProvider';
 export default class ModelServiceProvider extends ServiceProvider {
     register() {
-        this.app.singleton('models', function () {
+        this.app.singleton('models',  () => {
             return new Proxy(new Map(), {
                 set(target, p, value, receiver) {
                     target.set(p, value);
@@ -12,7 +12,7 @@ export default class ModelServiceProvider extends ServiceProvider {
                 }
             });
         });
-        this.app.singleton('$$store', function (app) {
+        this.app.singleton('$$store',  (app) => {
             return {
 
             };
