@@ -11,7 +11,7 @@ export default class Request {
     _data = {};
     _uri = '';
     _name = null;
-    _method = 'GET';
+    _method = HttpMethod.GET;
     _middleware = [
         ValidateMiddleware,
         UriParamParseMiddleware
@@ -41,7 +41,7 @@ export default class Request {
     }
 
     get method () {
-        return this._method;
+        return this._method.toUpperCase();
     }
 
     async getHeaders () {

@@ -2,6 +2,7 @@ import Application from "../../foundation/Application";
 import Adapter from "./Adapter";
 import {extend} from 'underscore';
 import Pipeline from "../../pipeline/Pipeline";
+import HttpMethod from "./HttpMethod";
 
 export default class Client {
     #app = null;
@@ -83,16 +84,16 @@ export default class Client {
                 /**@var {Response} response*/
                 let response = null;
                 switch (request.method) {
-                    case 'GET':
+                    case HttpMethod.GET:
                         response = await this.get(url, request.data);
                         break;
-                    case 'POST':
+                    case HttpMethod.POST:
                         response = await this.post(url, request.data);
                         break;
-                    case 'PUT':
+                    case HttpMethod.PUT:
                         response = await this.put(url, request.data);
                         break;
-                    case 'DELETE':
+                    case HttpMethod.DELETE:
                         response = await this.del(url, request.data);
                         break;
                 }
