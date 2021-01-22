@@ -112,12 +112,17 @@ When you run the acc-engine.js, the framework will put some system's providers i
     + response
     + middleware
 
-    
+    + HttpMethod {
+            GET: 'GET',
+            POST: 'POST',
+            PUT: 'PUT',
+            DELETE: 'DELETE',
+    }
     
     
 ```javascript
     // define login response
-    import {Response} from "@zoranwong/acc-engine.js";
+    import {Response, HttpMethod} from "@zoranwong/acc-engine.js";
     class LoginResponse extends Response{
         token = null;
         ttl = null;
@@ -150,7 +155,7 @@ When you run the acc-engine.js, the framework will put some system's providers i
             user_name: null,
             password: null
         };
-        _method = 'POST';
+        _method = HttpMethod.GET;
         _uri = '/login';
         _responseClass = LoginResponse;
         constructor(userName, password) {

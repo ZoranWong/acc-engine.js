@@ -10,6 +10,7 @@ import collection from "./models/Collection";
 import httpAdapter from "./io/http/Adapter";
 import request from "./io/http/Request";
 import response from './io/http/Response';
+import HttpMethod from "./io/http/HttpMethod";
 import {LOWER_SNAKE, LOWER_CAMEL, UPPER_CAMEL, UPPER_SNAKE, caseKeyName} from "./utils/functions";
 
 Application.getInstance().registerProvider(ConfigServiceProvider);
@@ -30,6 +31,7 @@ export {
     model as Model,
     collection as Collection,
     httpAdapter as HttpAdapter,
+    listener as ListenerInterface,
     request as Request,
     response as Response,
     Application as default,
@@ -37,5 +39,6 @@ export {
     LOWER_SNAKE,
     UPPER_SNAKE,
     UPPER_CAMEL,
-    caseKeyName
+    caseKeyName,
+    HttpMethod
 }
