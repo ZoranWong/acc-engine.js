@@ -47,15 +47,31 @@ When you run the acc-engine.js, the framework will put some system's providers i
 ```
 
 - ### http service
-
-    + request
+    + Adapter
+    
+    + XMLHttpAdapter
+    
+    + Client 
+    
+    + Request class // you will implement this class to define a new request class which contains http method, uri, 
         
-        _headers = {}; // http headers
+        _headers = {}; // http headers 
         
         _data = {}; // http request data or params
         
         _uri = ''; // http request uri
-        
+            
+            ``` javascript
+                //_uri is http request uri 
+                class OderRequest extends Request {
+                    _uri = '/orders/{id}'
+                    _data = {
+                        id: '',// replace {id} in _uri
+                        status: '', // put in post or put http body or concat params on http queryStr
+                    }
+                }
+            ```
+            
         _method = '';// http method
         
         _middleware = []; // http interceptors array, you can put some common logic in middleware
@@ -109,15 +125,19 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         get responseClass()
         
-    + response
-    + middleware
+    + Response class
+    
+    + Middleware class
 
-    + HttpMethod {
+    + HttpMethod http method dictionary 
+        ```
+        {
             GET: 'GET',
             POST: 'POST',
             PUT: 'PUT',
             DELETE: 'DELETE',
-    }
+        }
+        ```
     
     
 ```javascript
@@ -283,9 +303,9 @@ Command service is the practice of command design pattern.We abstract the behavi
     LoginRequest.send('Mike Jackson', 'xxxxxxxx')
 ```
 
-![SearchRequest](/assets/code_00.jpg "SearchRequest")
-![SearchRequest](/assets/code_01.jpg "SearchRequest")
-![SearchRequest](/assets/code_02.jpg "SearchRequest")
+![SearchRequest]( https://raw.githubusercontent.com/ZoranWong/acc-engine.js/master/assets/code_00.jpg "SearchRequest")
+![SearchRequest]( https://raw.githubusercontent.com/ZoranWong/acc-engine.js/master/assets/code_01.jpg "SearchRequest")
+![SearchRequest]( https://raw.githubusercontent.com/ZoranWong/acc-engine.js/master/assets/code_02.jpg "SearchRequest")
     
 - ### model service
     - setModel(data) this method can reset the property of model which you defined,and it can case snake's key to camel's key which you defined in model.
