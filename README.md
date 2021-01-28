@@ -46,14 +46,15 @@ When you run the acc-engine.js, the framework will put some system's providers i
     app.run();
 ```
 
-- ### http service
-    + Adapter
-    
-    + XMLHttpAdapter
-    
-    + Client 
-    
-    + Request class // you will implement this class to define a new request class which contains http method, uri, 
+- ## http service
++ Adapter class // http based Adapter class, you can implement it to adapt you http client sdk.
+
++ XMLHttpAdapter // XMLHttpRequest Adapter class， set http Adapter to http client to send request.
+
++ Client class // http client class
+
++ Request class // you will implement this class to define a new request class which contains http method, uri, 
+        
         
         _headers = {}; // http headers 
         
@@ -71,7 +72,6 @@ When you run the acc-engine.js, the framework will put some system's providers i
         }
     }
 ```
-            
         _method = '';// http method
         
         _middleware = []; // http interceptors array, you can put some common logic in middleware
@@ -125,11 +125,12 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         get responseClass()
         
-    + Response class
-    
-    + Middleware class
+            
++ Response class
 
-    + HttpMethod http method dictionary 
++ Middleware class
+
++ HttpMethod http method dictionary 
 ```javascript
     {
         GET: 'GET',

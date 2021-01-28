@@ -7,13 +7,8 @@ export default class Model {
     app = null;
     cacheKey = 'model_';
     needCache = false;
-    excludeKeys = ['excludeKeys', 'savingCache', 'needCache', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations', 'namespaced'];
-    namespaced = true;
+    excludeKeys = ['excludeKeys', 'savingCache', 'needCache', 'namespace', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations'];
     namespace = '';
-    state = null;
-    actions = null;
-    mutations = null;
-    getters = null;
 
     constructor (options = {namespace: ''}) {
         this.app = Application.getInstance();
@@ -78,10 +73,6 @@ export default class Model {
         this.namespace = options['namespace'];
         this.resetModelFromCache();
         this.setModel(options);
-        this.state = this._state();
-        this.actions = this._actions();
-        this.mutations = this._mutations();
-        this.getters = this._getters();
         return this;
     }
 
@@ -90,83 +81,6 @@ export default class Model {
         tmp[key] = value;
         extend(this, tmp);
         return value;
-    }
-
-    proxyForStore () {
-        /**@var Application app*/
-        const app = this.app;
-        const namespace = this.namespace;
-        const {dispatch, getters} = app['$$store'];
-        if (dispatch && getters) {
-            forEach(this, (item, key) => {
-                if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
-                    Object.defineProperty(this, key, {
-                        set (value) {
-
-                            if (dispatch) {
-                                let payload = {};
-                                payload[key] = value;
-                                dispatch(`${namespace}/${key}`, payload);
-                            } else {
-                                item = value;
-                            }
-                        },
-                        get () {
-                            return getters ? getters[`${namespace}/${key}`] : item;
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    _state () {
-        const state = {};
-        forEach(this, (item, key) => {
-            if (this.excludeKeys.indexOf(key) === -1 && !isFunction(item)) {
-                state[key] = item;
-            }
-        });
-        return state;
-    }
-
-    _getters () {
-        const getters = {};
-        forEach(this, (item, key) => {
-            if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
-                getters[key] = state => state[key];
-            }
-        });
-        return getters;
-    }
-
-    _actions () {
-        const actions = {};
-        forEach(this, (item, key) => {
-            if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
-                actions[key] = ({commit}, payload) => commit(key, payload);
-            }
-        });
-        return actions;
-    }
-
-    _mutations () {
-        const mutations = {};
-        forEach(this, (item, key) => {
-            if (this.excludeKeys.indexOf(key) === -1 && !isFunction(this[key])) {
-                mutations[key] = (state, payload) => {
-                    state[key] = payload[key];
-                    if (!this.savingCache) {
-                        this.savingCache = true;
-                        setTimeout(() => {
-                            this.setCache();
-                            this.savingCache = false;
-                        }, 200);
-                    }
-                }
-            }
-        });
-        return mutations;
     }
 
     setModel (data) {
