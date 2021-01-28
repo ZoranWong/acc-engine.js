@@ -1,6 +1,6 @@
 {
   "name": "@zoranwong/acc-engine.js",
-  "version": "0.0.64",
+  "version": "0.0.65",
   "description": "A javascript framework to accelerate your applicatin developement",
   "main": "lib/index.js",
   "scripts": {
