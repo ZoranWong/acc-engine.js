@@ -61,16 +61,16 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         _uri = ''; // http request uri
             
-            ``` javascript
-                //_uri is http request uri 
-                class OderRequest extends Request {
-                    _uri = '/orders/{id}'
-                    _data = {
-                        id: '',// replace {id} in _uri
-                        status: '', // put in post or put http body or concat params on http queryStr
-                    }
-                }
-            ```
+```javascript
+    //_uri is http request uri 
+    class OderRequest extends Request {
+        _uri = '/orders/{id}'
+        _data = {
+            id: '',// replace {id} in _uri
+            status: '', // put in post or put http body or concat params on http queryStr
+        }
+    }
+```
             
         _method = '';// http method
         
@@ -84,22 +84,22 @@ When you run the acc-engine.js, the framework will put some system's providers i
         
         constructor(HttpRequestOption options)
         
-            ```javascript
-            class HttpRequestOption {
-                     headers = null;
-                     data = null;
-                     uri = null;
-                     method = HttpMethod.GET;
-                     middleware = null;
-                     responseClass = Response 
-              }
-              
-              //You can send data using the object of HttpRequestOption's struct
-              
-              Request.send(new HttpRequestOption({headers, data, uri, method, middleware, responseClass}));
-              
-              Request.send({headers, data, uri, method, middleware, responseClass});
-            ```
+```javascript
+    class HttpRequestOption {
+             headers = null;
+             data = null;
+             uri = null;
+             method = HttpMethod.GET;
+             middleware = null;
+             responseClass = Response 
+      }
+      
+      //You can send data using the object of HttpRequestOption's struct
+      
+      Request.send(new HttpRequestOption({headers, data, uri, method, middleware, responseClass}));
+      
+      Request.send({headers, data, uri, method, middleware, responseClass});
+```
             
         setHeader(name, value)
         
@@ -130,14 +130,14 @@ When you run the acc-engine.js, the framework will put some system's providers i
     + Middleware class
 
     + HttpMethod http method dictionary 
-        ```
-        {
-            GET: 'GET',
-            POST: 'POST',
-            PUT: 'PUT',
-            DELETE: 'DELETE',
-        }
-        ```
+```javascript
+    {
+        GET: 'GET',
+        POST: 'POST',
+        PUT: 'PUT',
+        DELETE: 'DELETE',
+    }
+```
     
     
 ```javascript
@@ -312,18 +312,18 @@ Command service is the practice of command design pattern.We abstract the behavi
    
     - cacheAttributes which attributes will be cached in.
     
-    ```javascript
-        class User extends Model {
-            username = null;
-            headImage = null;
-            constructor(options) {
-                super(options);
-                this.initial(options);//initial the model
-            }
+```javascript
+    class User extends Model {
+        username = null;
+        headImage = null;
+        constructor(options) {
+            super(options);
+            this.initial(options);//initial the model
         }
-        // User.instance(app, 'model');
-        let user = new User({username: 'Jack',head_image: '--------------'});
-    ```
+    }
+    // User.instance(app, 'model');
+    let user = new User({username: 'Jack',head_image: '--------------'});
+```
 - ### websocket service
 
 - ### worker service
