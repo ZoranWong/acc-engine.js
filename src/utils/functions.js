@@ -9,7 +9,6 @@ export function caseKeyName (key, caseForm = LOWER_CAMEL) {
         case LOWER_CAMEL:
             hyphenateRE = /_\D/g;
             key = (key + '').replace(hyphenateRE, match => {
-                console.log(match);
                 return match.charAt(1).toUpperCase();
             });
             key  = key[0].toLowerCase() + key.substr(1, key.length - 1);

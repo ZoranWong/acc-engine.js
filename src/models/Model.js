@@ -68,7 +68,6 @@ export default class Model {
                 });
             }
             this.app['cache'].set(this.cacheKey + this.namespace, cacheData);
-            console.log('---------- model set cache -----------', cacheData);
         }
     }
 

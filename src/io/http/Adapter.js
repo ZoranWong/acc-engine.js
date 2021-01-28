@@ -36,7 +36,6 @@ export default class Adapter {
     }
     set headers (val) {
         this.#headers = val;
-        console.log(this.#headers, '---------------');
     }
 
     get headers () {

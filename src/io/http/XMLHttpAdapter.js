@@ -11,7 +11,7 @@ export default class XMLHttpAdapter extends Adapter {
         return new Promise((resolve, reject) => {
             try {
                 let request = new XMLHttpRequest();
-                console.log(this.method, this.url);
+                // console.log(this.method, this.url);
                 request.open(this.method, this.url, true);
                 for (let key in this.headers) {
                     request.setRequestHeader(key, this.headers[key]);
