@@ -1,4 +1,4 @@
-import {extend, forEach, isFunction, isEmpty, where} from "underscore";
+import {extend, forEach, isFunction, isEmpty, where, pick} from "underscore";
 import Application, {caseKeyName} from "..";
 
 export default class Model {
@@ -26,13 +26,16 @@ export default class Model {
         return ['savingCache', 'needCache', 'cacheAttributes', 'cacheKey'];
     }
     resetModelFromCache () {
+        if(!this.cacheKey){
+            return;
+        }
         let app = this.getApplication();
         if (this.needCache && app['cache']) {
             let cachedData = app['cache'].get(this.cacheKey);
             let reset = (cachedData) => {
                 if (cachedData) {
-                    if (this.cacheAttributes.length !== 1 || this.cacheAttributes.includes('*')) {
-                        cachedData = where(cachedData, (item, key) => {
+                    if (this.cacheAttributes.length !== 1 || !this.cacheAttributes.includes('*')) {
+                        cachedData = pick(cachedData, (item, key) => {
                             return this.cacheAttributes.includes(key);
                         });
                     }
