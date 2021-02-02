@@ -4,15 +4,13 @@ import Application, {caseKeyName} from "..";
 export default class Model {
     cacheAttributes = ['*'];
     savingCache = false;
-    app = null;
     cacheKey = '';
     needCache = false;
-    excludeCacheKeys = ['excludeCacheKeys', 'savingCache', 'needCache', 'cacheAttributes', 'app', 'cacheKey', 'state', 'getters', 'actions', 'mutations'];
 
     constructor (options = {cacheKey: ''}) {
-        this.app = Application.getInstance();
         this.cacheKey += options.cacheKey || '';
     }
+
 
     static instance (cacheKey = '') {
         let instance = new this({cacheKey});
@@ -20,9 +18,17 @@ export default class Model {
         return instance;
     }
 
+    getApplication () {
+        return Application.getInstance();
+    }
+
+    excludeCacheKeys() {
+        return ['savingCache', 'needCache', 'cacheAttributes', 'cacheKey'];
+    }
     resetModelFromCache () {
-        if (this.needCache && this.app['cache']) {
-            let cachedData = this.app['cache'].get(this.cacheKey);
+        let app = this.getApplication();
+        if (this.needCache && app['cache']) {
+            let cachedData = app['cache'].get(this.cacheKey);
             let reset = (cachedData) => {
                 if (cachedData) {
                     if (this.cacheAttributes.length !== 1 || this.cacheAttributes.includes('*')) {
@@ -46,13 +52,15 @@ export default class Model {
     }
 
     setCache () {
-        if (this.needCache && this.app['cache'] && !this.savingCache) {
+        let app = this.getApplication();
+        if (this.needCache && app['cache'] && !this.savingCache) {
             this.savingCache = true;
+            let excludeCacheKeys = this.excludeCacheKeys();
             setTimeout(async () => {
                 let cacheData = {};
                 if (this.cacheAttributes.length === 1 && this.cacheAttributes[0] === '*') {
                     forEach(this, (item, key) => {
-                        if (this.excludeCacheKeys.indexOf(key) === -1 && !isFunction(this[key])) {
+                        if (excludeCacheKeys.indexOf(key) === -1 && !isFunction(this[key])) {
                             cacheData[key] = item;
                         }
                     })
@@ -61,7 +69,7 @@ export default class Model {
                         cacheData[key] = this[key];
                     });
                 }
-                await this.app['cache'].set(this.cacheKey, cacheData);
+                await app['cache'].set(this.cacheKey, cacheData);
                 this.savingCache = false;
             }, 200);
         }

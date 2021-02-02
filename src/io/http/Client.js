@@ -6,11 +6,9 @@ import HttpMethod from "./HttpMethod";
 
 export default class Client {
     #app = null;
-    #pipe = null;
     #headers = {};
     constructor(app) {
         this.#app = app;
-        this.#pipe = new Pipeline(app);
     }
 
     /**
@@ -40,7 +38,7 @@ export default class Client {
      * @return {Pipeline}
      * */
     get pipeline() {
-        return this.#pipe;
+        return new Pipeline(this.app);
     }
 
     async get(url, queries = {}) {
