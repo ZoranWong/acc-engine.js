@@ -3,7 +3,7 @@ import Application, {caseKeyName} from "..";
 
 export default class Model {
     cacheAttributes = ['*'];
-    savingCache = false;
+    static savingCache = false;
     cacheKey = '';
     needCache = false;
 
@@ -53,10 +53,10 @@ export default class Model {
 
     setCache () {
         let app = this.getApplication();
-        if (this.needCache && app['cache'] && !this.savingCache) {
-            this.savingCache = true;
+        if (this.needCache && app['cache'] && !this.constructor.savingCache) {
+            this.constructor.savingCache = true;
             let excludeCacheKeys = this.excludeCacheKeys();
-            setTimeout(async () => {
+            let id = setTimeout(async () => {
                 let cacheData = {};
                 if (this.cacheAttributes.length === 1 && this.cacheAttributes[0] === '*') {
                     forEach(this, (item, key) => {
@@ -70,7 +70,8 @@ export default class Model {
                     });
                 }
                 await app['cache'].set(this.cacheKey, cacheData);
-                this.savingCache = false;
+                this.constructor.savingCache = false;
+                clearTimeout(id);
             }, 200);
         }
     }
